@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>nltk源码-collocation | Joanna&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation">
+<meta name="keywords" content="nltk">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nltk源码-collocation">
+<meta property="og:url" content="http://yoursite.com/2016/12/10/nltk-1/index.html">
+<meta property="og:site_name" content="Joanna&#39;s Blog">
+<meta property="og:description" content="实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation">
+<meta property="og:updated_time" content="2018-01-19T05:48:35.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nltk源码-collocation">
+<meta name="twitter:description" content="实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation">
+  
+    <link rel="alternate" href="/atom.xml" title="Joanna&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joanna&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">None</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nltk-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/10/nltk-1/" class="article-date">
+  <time datetime="2016-12-10T05:47:35.000Z" itemprop="datePublished">2016-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      nltk源码-collocation
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。<br>这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation源码，它采用的是基于窗口size的搭配策略，与我实际工作中的搭配过程大相径庭。因此，现在花点时间来总结一下nltk和实习期间所接触的collocation。<br>一、nltk搭配实验</p>
+<p>NLTK的搭配方法主要采用基于窗口大小的算法，NLTK共提供了二元，三元，四元的搭配抽取，NLTK的搭配过程:</p>
+<ol>
+<li>语料处理</li>
+</ol>
+<p>NLTK里的语料采用webtext，内涵6个文件：overheard.txt，pirates.txt，singles.txt，wine.txt，这些文本文件都是txt格式，每句一行，如图：</p>
+<p>首先对这些语料进行处理，大小写转换，并将纯文本转化成单词的list格式，返回[];</p>
+<ol>
+<li>寻找搭配对</li>
+</ol>
+<p>指定窗口n（默认为2），若抽取非连续短语，则窗口大小要大于抽取的元组大小。如抽取二元组，则window_size&gt;=3。在此过程中，首先创建nltk.probability.FreqDist对象wfd和bfd，获得每个单词在语料库中的频率和元组的联合频率，并指定开头和结尾的字符(默认为None)。此时，所有的n元组都是候选搭配。查找n-gram过程又分为连续和非连续，连续过程由ngram实现，非连续过程由skipgrams实现，找到该句中的所有元组。<br>以二元组为例：创建BigramCollocatinFinder对象cf，调用BigramCollocatinFinder.from_words函数，利用nltk.util.ngrams得到每句话所有的n元组，并计算得到语料库中的单词频率wfd和元组频率bfd；返回一个新的初始化了wfd和bfd值的BigramCollocatinFinder对象cf。</p>
+<ol>
+<li>过滤</li>
+</ol>
+<p>首先过滤单词，如大小写转换，过滤停用词和小于长度为3的单词；可调用apply_freq_filter(min_freq)函数，指定最小频率min_freq，将频率小于min_freq的单词移除，<br>然后过滤元组，依旧可以调用apply_freq_filter(self, min_freq)函数，指定最小频率min_freq，将频率小于min_freq的候选搭配移除；或是通过apply_ngram_filter(self, fn)，指定函数fn，可过滤一切满足条件fn的元组；<br>此时，返回一个预处理后的BigramCollocatinFinder或TrigramCollocatinFinder对象cf；</p>
+<ol>
+<li><p>给候选搭配打分，度量搭配关联度（重点）；</p>
+<p> 指定一个打分策略score_fn，生成一个由大到小排序的(ngram, score)序列，由score_ngrams(sef, score_fn)实现；这里的score_fn一般由用户在运行参数中确定，NLTK默认使用似然比（likelihood ratio）来度量元组中单词的关联度，由nltk.metrics.BigramAssocMeasures.likelihood_ratio实现；并将ngram排序，得到(ngram, rank)序列1；<br> 然后根据打分的结果，确定相近的词组找到最佳的Nbest个搭配，即为我们得到的带间隔的搭配短语；<br> 采用新的打分策略compare_fn，NLTK默认采用ngram频率/语料库规模N，可得到新(ngram, rank)序列2；<br> 对这两个序列，采用speraman相关性分析，得到该语料的总体相关程度。</p>
+<ol>
+<li>搭配关联分析<br>在寻找搭配的过程中涉及到了搭配关联分析，当用户未指定时，NLTK默认采用似然比作为score_fn来分析搭配关系。<br>初始状态时，score_fn的参数为空；<br>经前期1-3步处理，可得到如下三个结果作为score_fn的参数：<br>料库规模，即语料所有词的词频；<br>每个候选ngram的规模，采用如下公式：元组出现频率/(窗口大小-1)；<br>Ngram中各个词的规模，即词频；<br>通过似然比等把上述三个参数代入计算，得到似然值作为当ngram的得分，以(ngram, score)作为结果降序排列；似然比公式：<br>对于每个(ngram, score)元组，设置一个rank_gap，只有当两个ngram的分数差&gt;rank_gap时才会将ngram列入排序列表中，否则就舍弃，这么做可以增大结果集中各个ngram的得分差，便于speraman分析，这步得到关于ngram排列的元组(ngram, rank)序列1；<br>除了制定似然比作为score_fn，得到经排序后的(ngram, score)序列，NLTK还要求指定一个compare_score(即ngram频率/语料库大小N)作为打分策略，得到新的(ngram, score)序列2；<br>进行speraman相关性分析。将上步的两个序列作为参数，传入spearman_correlation中。对于序列1和序列2，计算相同ngram的rank差，并计算speraman相关系数，采用公式：<br>1 - (6 res / (n (n*n - 1)))<br>其中，res = ∑(ranks1[k] - ranks2[k])^2（k表示在序列1和序列2中都出现的ngram），n为k的个数；<br>因此，计算得到的speraman相关系数在[-1, 1]之间，这个结果就表示了该语料的总体相关程度。<br>NLTK度量搭配候选匹配程度的策略还很多，比如PMI值、Poisson-Stirling法、皮尔逊卡方检验等。</li>
+</ol>
+</li>
+<li><p>我的实验总结：</p>
+</li>
+</ol>
+<p>我对nltk的搭配策略进行了小小的实验，发现NLTK中带间隔的短语抽取，与连续短语抽取的不同之处在于，当窗口大小大于抽取的元组时，使用skip-gram抽取候选gram。此次仅以单间隔的二元短语为例进行试验，效果不尽如意。从结果中看来，许多连续的短语也都抽取出来，而且非间隔的短语构成搭配的强度不大。分析看来，试验缺乏深层的分析，如过滤连续可搭配的短语等。而且本次实验只采用似然比作为得分策略，不具有比较性。<br>二、实习期的搭配策略</p>
+<p>实习期间一个阶段性任务要求判断人机多轮对话是否属于意图保持，我主要是分析用户的多轮输入之间是否是同一个意图，是为1， 否为0.如上面所说，说白了，这就是个判断上下文相关性的问题，需要组合各种不同的特征来判断单特征的优劣。<br>我所调研的特征里，大部分是基于强大的知识库来构建的。</p>
+<pre><code>将query切承认那个token
+对token序列构建ngram，前向最大匹配在知识库中找词
+待续。。。
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/10/nltk-1/" data-id="cjd5l85l30012vgteh1v64zm8" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nltk/">nltk</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/08/nlp-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          课程学习——斯坦福CS224N深度学习自然语言处理lecture2
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/01/feeling-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">感悟——实习one-one</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/anaconda/">anaconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feeling/">feeling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nltk/">nltk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/travel/">travel</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/anaconda/" style="font-size: 10px;">anaconda</a> <a href="/tags/feeling/" style="font-size: 10px;">feeling</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/nlp/" style="font-size: 15px;">nlp</a> <a href="/tags/nltk/" style="font-size: 10px;">nltk</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/software/" style="font-size: 15px;">software</a> <a href="/tags/travel/" style="font-size: 15px;">travel</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/02/linux-13/">linux——gcc编译显示大量warning &amp; tensorflow安装失败的解决</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/linux-12/">linux——添加用户并赋予root权限</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/linux-11/">linux——vim高亮查找</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-2/">软件——SecureCRT安装与激活</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-1/">软件——office2016安装与激活</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Joanna<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

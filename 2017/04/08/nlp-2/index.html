@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>课程学习——斯坦福CS224N深度学习自然语言处理lecture2 | Joanna&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。  WordNet  本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关">
+<meta name="keywords" content="nlp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="课程学习——斯坦福CS224N深度学习自然语言处理lecture2">
+<meta property="og:url" content="http://yoursite.com/2017/04/08/nlp-2/index.html">
+<meta property="og:site_name" content="Joanna&#39;s Blog">
+<meta property="og:description" content="课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。  WordNet  本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关">
+<meta property="og:updated_time" content="2018-01-19T05:52:59.500Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="课程学习——斯坦福CS224N深度学习自然语言处理lecture2">
+<meta name="twitter:description" content="课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。  WordNet  本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关">
+  
+    <link rel="alternate" href="/atom.xml" title="Joanna&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joanna&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">None</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nlp-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/08/nlp-2/" class="article-date">
+  <time datetime="2017-04-08T05:51:57.000Z" itemprop="datePublished">2017-04-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      课程学习——斯坦福CS224N深度学习自然语言处理lecture2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。</p>
+<ol>
+<li>WordNet</li>
+</ol>
+<p>本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。<br>WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关系。它们分别用两个CSV文件来保存：synsets.txt和hypernym.txt。</p>
+<p>（1）同义词集<br>synsets.txt保存了一系列的同义词，每行由3列，每列用逗号分隔，形如：id,synset,gloss<br>其中；id=编号，synset=同义词集（单词间用空格分隔），gloss=注解<br>举例：</p>
+<p>45,AND_circuit AND_gate,a circuit in a computer that fires only when all of its inputs fire</p>
+<p>（2）关系<br>hypernyms.txt保存同义词集之间的关系，每行是由逗号分隔的id序列，形如：id1,id2,id3…</p>
+<pre><code>继承关系（hyperonymy, hyponymy, is-a）
+这类描述的是通用词与具体词之间的关系，比如：
+通用词：{furniture, piece_of_furniture}
+具体词：{bed} {bunkbed}
+用树表示如图所示：
+部分-整体关系(part-whole)
+这类描述的是部分与整体之间的包含关系，比如整体={seat}，部分={leg}。
+交叉词性关系（Cross-POS）
+实际上，WordNet主要按照词性（POS）来获取词间关系，因此WordNet含有4个子网络，分别存储名词、动词、形容词和副词。Cross-POS连接的是词干相同、词性不同的词，如ovserve(verb)、observant(adjective)、observation(noun)。
+</code></pre><p>(3) SAP（shortest ancestral path，最短祖先路径）<br>SAP是WordNet的一种数据结构，表示两个不同结点到共同祖先的最短距离，这可以用来计算两个词之间的距离相似度。如图所示，结点3和结点11的SAP=4：</p>
+<p>现有两个名词A和B，则A与B之间的距离distance(A,B)计算方式为：<br>step1: 若A、B都不是名词，distance=∞<br>step2: distance = min(sap(v(A),w(B))),其中V(A)表示A的任意同义词集，w(B)表示B的任意同义词集。</p>
+<p>（4）Outcast<br>Outcast就是找出在一组词中与其他最不相似的词，计算方法相对SAP比较简单暴力，就是计算某词语其他词的距离之和，最大的那个就是要求的解了。即：</p>
+<p>(di)^2 = (dist(Ai, A1))^2 + (dist(Ai, A2))^2 + … + (dist(Ai, An))^2</p>
+<p>注意，wordnet工具提供了distance(),sap()和outcast()方法。</p>
+<p>(5) NLTKL与WordNet<br>NLTK也有WordNet接口，详情参考《NLTK源码阅读——WordNet》</p>
+<ol>
+<li>word2vec</li>
+</ol>
+<p>尽管WordNet能够一定程度上表达单词得的含义，但是具有如下不足：<br>（1）新词的时效性跟不上<br>（2）需要人工去搜集、创建<br>（3）不考虑上下文信息<br>（4）难以准确地定位两个词的相似度<br>word2vec是google于2013年提出的工具，通过词向量（word embedding）来更好地度量词与词之间的相似性。起初vector的做法one-hot向量法：对于一个句子，如”I am a student.”，每个单词的向量表示为：</p>
+<p>I:[1,0,0,0]<br>am:[0,1,0,0]<br>a:[0,0,1,0]<br>student:[0,0,0,1]</p>
+<p>即单词的向量维度K=词典大小，这很容易造成维度灾难问题。对于这种情况，对应的解决办法是利用向量空间模型（Vector Space Model，简称VSM）将one-hot向量映射为稠密连续的Distributed Representation，其基本思想是：通过训练将每一个词映射成一个固定长度的短向量，构成词向量空间，每一个词向量相当于是空间中的一个点，那么点间距离就可以用来度量词间相似度了。<br>Distributed Representation的形式如[0.792,-0.177,-0.107,0.109,-0.542,…]，维度一般是50-100维，向量表示不唯一。<br>word2vec主要包含Skip-gram和Continious Bag of Words(CBOW)两种模型，分别采用Hierarchical Softmax 和Negative Sampling两种框架来实现。Ski-gram指给定中心词求上下文的概率，CBOW则相反，指给定上下文求中心词的概率。下面以Hierachical Softmax实现CBOW模型为例介绍实现的过程。</p>
+<ol>
+<li>CBOW模型的Hierachical Softmax实现</li>
+</ol>
+<p>模型有3层：输入层、投影层、输出层，结构如图所示：</p>
+<p>（1）输入层<br>（2）投影层<br>（3）输出层</p>
+<p>注意：word embedding是术语表达，而word2vec是google提出的工具，并非指模型或算法。<br>在word2vec中采用Huffman编码，利用词频作为Huffman树的结点权值，权值大的编码为1，为左孩子结点；权值小的编码为0，为右孩子结点。</p>
+<ol>
+<li>SG（Skip-Gram）</li>
+</ol>
+<p>SG根据中心词预测上下文，包含三层：input（输入层）、projection（投影层）、output（输出层）</p>
+<ol>
+<li>CBOW（Continious Bag of Words）</li>
+</ol>
+<p>CBOW正好与SG相反，根据上下文预测中心词。</p>
+<ol>
+<li>Hierachical Softmax</li>
+<li>Negative Sample</li>
+</ol>
+<p>参考资料：</p>
+<pre><code>wordnet官网
+wordnet资料
+《Word2Vec的前世今生》
+《Distributed Representations ofWords and Phrases and their Compositionality》
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/08/nlp-2/" data-id="cjd5l85kq000xvgtemrxnzfpw" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nlp/">nlp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/15/nlp-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          课程学习——斯坦福CS224N深度学习自然语言处理lecture1
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/10/nltk-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">nltk源码-collocation</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/anaconda/">anaconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feeling/">feeling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nltk/">nltk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/travel/">travel</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/anaconda/" style="font-size: 10px;">anaconda</a> <a href="/tags/feeling/" style="font-size: 10px;">feeling</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/nlp/" style="font-size: 15px;">nlp</a> <a href="/tags/nltk/" style="font-size: 10px;">nltk</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/software/" style="font-size: 15px;">software</a> <a href="/tags/travel/" style="font-size: 15px;">travel</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/02/linux-13/">linux——gcc编译显示大量warning &amp; tensorflow安装失败的解决</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/linux-12/">linux——添加用户并赋予root权限</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/linux-11/">linux——vim高亮查找</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-2/">软件——SecureCRT安装与激活</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-1/">软件——office2016安装与激活</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Joanna<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

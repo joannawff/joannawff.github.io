@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>读书笔记——《大叔据智能》第2章：知识图谱 | Joanna&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="知识图谱的基本组成单元是实体（entity）；数据来源：（1）大规模知识库：Wikipedia、百度百科、Wordnet，实体关系、领域知识以结构化方式存储；（2）链接数据：采用RDF框架描述结构化知识，实体关系以三元组方式存在，RDF链接构成语义Web知识库；（3）网页文本数据：从无结构化网页中抽取结构化信息；（4）多数据源知识融合：实体、关系与实例融合； 主要应用：QU、QA、DR（Docum">
+<meta name="keywords" content="reading">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读书笔记——《大叔据智能》第2章：知识图谱">
+<meta property="og:url" content="http://yoursite.com/2016/11/20/reading-1/index.html">
+<meta property="og:site_name" content="Joanna&#39;s Blog">
+<meta property="og:description" content="知识图谱的基本组成单元是实体（entity）；数据来源：（1）大规模知识库：Wikipedia、百度百科、Wordnet，实体关系、领域知识以结构化方式存储；（2）链接数据：采用RDF框架描述结构化知识，实体关系以三元组方式存在，RDF链接构成语义Web知识库；（3）网页文本数据：从无结构化网页中抽取结构化信息；（4）多数据源知识融合：实体、关系与实例融合； 主要应用：QU、QA、DR（Docum">
+<meta property="og:updated_time" content="2018-01-19T05:42:55.309Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读书笔记——《大叔据智能》第2章：知识图谱">
+<meta name="twitter:description" content="知识图谱的基本组成单元是实体（entity）；数据来源：（1）大规模知识库：Wikipedia、百度百科、Wordnet，实体关系、领域知识以结构化方式存储；（2）链接数据：采用RDF框架描述结构化知识，实体关系以三元组方式存在，RDF链接构成语义Web知识库；（3）网页文本数据：从无结构化网页中抽取结构化信息；（4）多数据源知识融合：实体、关系与实例融合； 主要应用：QU、QA、DR（Docum">
+  
+    <link rel="alternate" href="/atom.xml" title="Joanna&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joanna&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">None</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-reading-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/11/20/reading-1/" class="article-date">
+  <time datetime="2016-11-20T05:41:42.000Z" itemprop="datePublished">2016-11-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      读书笔记——《大叔据智能》第2章：知识图谱
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>知识图谱的基本组成单元是实体（entity）；<br>数据来源：<br>（1）大规模知识库：Wikipedia、百度百科、Wordnet，实体关系、领域知识以结构化方式存储；<br>（2）链接数据：采用RDF框架描述结构化知识，实体关系以三元组方式存在，RDF链接构成语义Web知识库；<br>（3）网页文本数据：从无结构化网页中抽取结构化信息；<br>（4）多数据源知识融合：实体、关系与实例融合；</p>
+<p>主要应用：<br>QU、QA、DR（Document Representation）</p>
+<p>采用技术：<br>（1）Entity Linking：实体链指，包含实体识别（EntityRecognition）和实体消歧（EntityDisambiguation）两个任务，涉及文本图像、社交媒体等领域；<br>（2）Relation Extraction：关系抽取，有bootstrapping、短语抽取、实体对关系分类等方法；<br>实体对关系分类方法中，可以用DistantSupervision启发式标注训练语料；<br>（3）Knowledge Reasoning：知识推理，涉及PathRanking Algorithnm、PredicateLogical、Markov LogicNetWork等方法，要求依赖规则，可采用关联挖掘技术自动发现推理规则；<br>（4）Knowledge Representation：知识表示，低维向量表示，采用DistributedRepresentation方案和TransE模型；<br>TransE模型：分布式向量表示，实体关系转化成三元组，实体head-&gt;实体tail的过程中，不断调整h、r、t以达到h+r=t的目的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/11/20/reading-1/" data-id="cjd5l85la0014vgteafde38bi" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/reading/">reading</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/21/linux-6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          linux命令——查找进程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/11/13/travel-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">坝上草原游记</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/anaconda/">anaconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feeling/">feeling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nltk/">nltk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/travel/">travel</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/anaconda/" style="font-size: 10px;">anaconda</a> <a href="/tags/feeling/" style="font-size: 10px;">feeling</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/nlp/" style="font-size: 15px;">nlp</a> <a href="/tags/nltk/" style="font-size: 10px;">nltk</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/software/" style="font-size: 15px;">software</a> <a href="/tags/travel/" style="font-size: 15px;">travel</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/02/linux-13/">linux——gcc编译显示大量warning &amp; tensorflow安装失败的解决</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/linux-12/">linux——添加用户并赋予root权限</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/linux-11/">linux——vim高亮查找</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-2/">软件——SecureCRT安装与激活</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-1/">软件——office2016安装与激活</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Joanna<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

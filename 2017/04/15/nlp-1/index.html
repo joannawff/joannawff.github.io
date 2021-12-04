@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>课程学习——斯坦福CS224N深度学习自然语言处理lecture1 | Joanna&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。  NLP(Natural Language Processing)">
+<meta name="keywords" content="nlp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="课程学习——斯坦福CS224N深度学习自然语言处理lecture1">
+<meta property="og:url" content="http://yoursite.com/2017/04/15/nlp-1/index.html">
+<meta property="og:site_name" content="Joanna&#39;s Blog">
+<meta property="og:description" content="最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。  NLP(Natural Language Processing)">
+<meta property="og:updated_time" content="2018-01-19T05:51:31.599Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="课程学习——斯坦福CS224N深度学习自然语言处理lecture1">
+<meta name="twitter:description" content="最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。  NLP(Natural Language Processing)">
+  
+    <link rel="alternate" href="/atom.xml" title="Joanna&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Joanna&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">None</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-nlp-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/15/nlp-1/" class="article-date">
+  <time datetime="2017-04-15T05:50:32.000Z" itemprop="datePublished">2017-04-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      课程学习——斯坦福CS224N深度学习自然语言处理lecture1
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。<br>lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。</p>
+<ol>
+<li>NLP(Natural Language Processing)</li>
+</ol>
+<p>NLP是一门CS（计算机科学）、AI（人工智能）、Linguistic（语言学）交叉的学科，研究的是如何让计算机理解人类的自然语言的一门学科。若输入的是语音，则先进行语音分析（phonetic analysis）；若输入是文本，则先进行OCR文字识别或切词处理（Tokenization），然后进行如下四个层次的分析；<br>（1） 形态学分析（morphological analysis）<br>（2） 语法分析（syntacic analysis）<br>（3） 语义分析（semantic analysis）<br>（4） 语篇处理（discourse processing）<br>结构如图所示：</p>
+<ol>
+<li>Human Language</li>
+</ol>
+<p>如果把语言比作信号，那么人类语言就像是一个精确的信号系统，可以通过声音、动作和图像来进行编码，大脑通过连续不断地的激活以获得最准确的意思。此外，人类本身大脑存储了海量的知识库，表达的语言具有上下文强依赖关系。</p>
+<ol>
+<li>DL(Deep Learning)</li>
+</ol>
+<p>DL属于ML（Machine Learning）的一个分支，解决的是机器真正自动学习的问题。在80~00年代，ML任务并非真正的机器学习任务，需要人为地设计表征形式和特征，而这个过程也是最重要、工作量最大的部分，整个过程需要人去艰难地学习理论知识、设计各种特征、分析预测结果……久而久之ML任务就变成了一个参数优化的体力活。<br>DL有个比较重要的概念——表征学习（Representation Learning），这是一个自动学习的过程，能够从原始的信号中自动学习到好的特征，总结出优秀、重要的表征形式。近年来随着GPU、分布式等存储计算能力的提高、数据集的扩大，DL在语音识别和图像处理两个领域的突破尤为显著。<br>DL和ML的对比可以从图中看出：</p>
+<ol>
+<li>Deep NLP</li>
+</ol>
+<p>从近来的研究论文中也能发现，深度学习开始在NLP领域占领重要的作用。不像原来的手工提取特征计算的方式，Deep NLP有个重要的概念——向量空间（vector spaces），首先将文字转化成向量，然后向量结合成新的向量，用激活函数得到新的表征。<br>例如：<br>（1）传统的NLP形态学分析，单词由前缀（prefix）+词干（stem）+后缀（suffix）组成，而DL将其转化成了vector，两两带权重累加形成新的向量，如图所示：</p>
+<p>（2）机器翻译是NLP研究的开端，SMT（Statistical Machine Learning）是NLP发展史一个的里程碑，而如今的机器翻译大多以NMT（Nerual Machine Learning）为主，将源语句子映射为一个向量后再处理输出目标语句子。如图所示：</p>
+<p>因此，简单来说，NLP+DL技术的重点在于向量的使用，下一节将详细介绍word2vec的原理。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/15/nlp-1/" data-id="cjd5l85ki000vvgtecxx4yzrr" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nlp/">nlp</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/19/linux-7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          linux——中文乱码处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/08/nlp-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">课程学习——斯坦福CS224N深度学习自然语言处理lecture2</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/anaconda/">anaconda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/feeling/">feeling</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nlp/">nlp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nltk/">nltk</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/reading/">reading</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/software/">software</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/travel/">travel</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/anaconda/" style="font-size: 10px;">anaconda</a> <a href="/tags/feeling/" style="font-size: 10px;">feeling</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/nlp/" style="font-size: 15px;">nlp</a> <a href="/tags/nltk/" style="font-size: 10px;">nltk</a> <a href="/tags/reading/" style="font-size: 10px;">reading</a> <a href="/tags/software/" style="font-size: 15px;">software</a> <a href="/tags/travel/" style="font-size: 15px;">travel</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/02/linux-13/">linux——gcc编译显示大量warning &amp; tensorflow安装失败的解决</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/linux-12/">linux——添加用户并赋予root权限</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/linux-11/">linux——vim高亮查找</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-2/">软件——SecureCRT安装与激活</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/27/software-1/">软件——office2016安装与激活</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Joanna<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
