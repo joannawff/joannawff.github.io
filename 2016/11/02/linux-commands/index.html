@@ -27,7 +27,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://example.com/linux.png">
 <meta property="article:published_time" content="2016-11-02T15:33:11.000Z">
-<meta property="article:modified_time" content="2021-12-04T06:57:35.812Z">
+<meta property="article:modified_time" content="2021-12-04T08:21:28.950Z">
 <meta property="article:author" content="Feifei">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -144,7 +144,7 @@
         <span class="column is-narrow">
             
             
-            2 minutes read (About 287 words)
+            8 minutes read (About 1253 words)
         </span>
         
     </div>
@@ -161,13 +161,83 @@
 <p>方法二：$ awk ‘NR==FNR{a[NR]=$0;nr=NR;}NR&gt;FNR{print a[NR-nr]”\t”$0}’ file_1 file_2</p>
 <p>方法三：$ awk ‘{getline f2 &lt; “file_2”; print $0″\t”f2}’ file_1</p>
 <h2 id="前后合并"><a href="#前后合并" class="headerlink" title="前后合并"></a>前后合并</h2><p>cat file1 file2 &gt; file3</p>
-<h1 id="显示文件某几行"><a href="#显示文件某几行" class="headerlink" title="显示文件某几行"></a>显示文件某几行</h1><h2 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h2><p>3000<del>3999行：cat filename | tail -n +3000 | head -n 1000<br>1000</del>3000行：cat filename| head -n 3000 | tail -n +1000<br>分解：</p>
-<p>tail -n 1000：显示末尾1000行</p>
-<p>tail -n +1000：显示1000行以后的所有行</p>
-<p>head -n 1000：显示开头1000行</p>
+<h1 id="显示文件某几行"><a href="#显示文件某几行" class="headerlink" title="显示文件某几行"></a>显示文件某几行</h1><h2 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h2><p>cat filename | tail -n +3000 | head -n 1000</p>
+<p>cat filename| head -n 3000 | tail -n +1000</p>
+<p>分解：<br>tail -n 1000：显示末尾1000行<br>tail -n +1000：显示1000行以后的所有行<br>head -n 1000：显示开头1000行</p>
 <h2 id="seg"><a href="#seg" class="headerlink" title="seg"></a>seg</h2><p>sed -n ‘5,10p’ filename：显示5~10行</p>
+<h1 id="查找进程"><a href="#查找进程" class="headerlink" title="查找进程"></a>查找进程</h1><p>ps aux | grep “python” | awk -F ‘ ‘ ‘{print $2}’<br>输出的即为正在运行python进程的PID</p>
+<h1 id="统计文件个数"><a href="#统计文件个数" class="headerlink" title="统计文件个数"></a>统计文件个数</h1><p>统计当期那文件夹下文件个数，包括子文件夹</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -lR | grep “^-“ | wc -l</span><br></pre></td></tr></tbody></table></figure>
+<p>统计文件夹下目录个数，包括子文件夹</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -lR | grep “^d” | wc -l</span><br></pre></td></tr></tbody></table></figure>
+<p>统计当前文件夹下文件个数</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l | grep “^-“ | wc -l</span><br></pre></td></tr></tbody></table></figure>
+<p>统计当前文件夹下目录个数</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -l | grep “^d” | wc -l</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="中文乱码处理"><a href="#中文乱码处理" class="headerlink" title="中文乱码处理"></a>中文乱码处理</h1><p>SecureCRT连接远程服务器后，发现有中文乱码问题，下面是解决方方案。</p>
+<p>查看文件编码,打开文件，输入</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set fileencoding</span><br></pre></td></tr></tbody></table></figure>
+<p>结果显示fileencoding=cp936</p>
+<p>修改文件编码，输入</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set fileencoding=utf-8</span><br></pre></td></tr></tbody></table></figure>
+<p>再次输入1中的语句检查文件编码，显示fileencoding=utf-8</p>
+<p>编辑vimrc，在终端输入</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.vimrc</span><br></pre></td></tr></tbody></table></figure>
+<p>在最后一行添加</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp936</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="进程后台运行"><a href="#进程后台运行" class="headerlink" title="进程后台运行"></a>进程后台运行</h1><p>进程时间太久，可以通过ctrl+z让当前进程转至后台运行，此时，系统提示</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1]+ Stopped 程序名</span><br></pre></td></tr></tbody></table></figure>
+<p>把进程转到后台运行</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bg 1</span><br></pre></td></tr></tbody></table></figure>
+<p>查看进程，在终端输入jobs，系统提示</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1]+ Running 程序名</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="下载大文件"><a href="#下载大文件" class="headerlink" title="下载大文件"></a>下载大文件</h1><p>在linux上下载uget和aria2</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install uget</span><br><span class="line">sudo apt-get install aria2</span><br></pre></td></tr></tbody></table></figure>
+<p>分享百度云盘文件，点击下载，暂停，查看下载地址，如：<br><a target="_blank" rel="noopener" href="https://www.baidupcs.com/rest/2.0/pcs/file?method=batchdownload&amp;app_id=250528&amp;zipcontent=%7B%22fs_id%22:%5B%22206844088160893%22%5D%7D&amp;sign=DCb740ccc5511e5e8fedcff06b081203:4uhuulJJkDD/ovWIkyeJonYrjFw=&amp;uid=3844112066&amp;time=1516433452&amp;dp-logid=432463554070908057&amp;dp-callid=0&amp;vuk=3039518624&amp;from_uk=3844112066">https://www.baidupcs.com/rest/2.0/pcs/file?method=batchdownload&amp;app_id=250528&amp;zipcontent=%7B%22fs_id%22%3A%5B%22206844088160893%22%5D%7D&amp;sign=DCb740ccc5511e5e8fedcff06b081203:4uhuulJJkDD%2FovWIkyeJonYrjFw%3D&amp;uid=3844112066&amp;time=1516433452&amp;dp-logid=432463554070908057&amp;dp-callid=0&amp;vuk=3039518624&amp;from_uk=3844112066</a></p>
+<p>在linux上输入命令</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aria2c –dir=保存的目录 –max-connection-per-server=16 –max-concurrent-downloads=16 –split=16 –continue=true 下载连接地址</span><br></pre></td></tr></tbody></table></figure>
+<p>然后shell上就显示下载进度，如</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[#e55ab 12MiB/3.1Gib(%) CN:1 DL:61Kib ETA:16h48m39s]</span><br></pre></td></tr></tbody></table></figure>
+<p>至此，等待结束即可。</p>
+<h1 id="vim高亮查找"><a href="#vim高亮查找" class="headerlink" title="vim高亮查找"></a>vim高亮查找</h1><p>在vim下输入/xxx，显示第一个匹配结果，回车，高亮显示所有匹配结果，按n向下查找</p>
+<p>在vim下输入?xxx，显示最后一个匹配结果，回车，高亮所有匹配结果，按n向上查找</p>
+<p>当回车并没有高亮所有匹配结果时，输入</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set hls</span><br></pre></td></tr></tbody></table></figure>
+<p>不需要高亮所有时可关闭，输入</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:set nohls</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="添加用户并赋予root权限"><a href="#添加用户并赋予root权限" class="headerlink" title="添加用户并赋予root权限"></a>添加用户并赋予root权限</h1><ol>
+<li>在shell用root账户输入如下命令<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -d /home/test -s /bin/bash -m test</span><br></pre></td></tr></tbody></table></figure>
+其中，</li>
+</ol>
+<p>-d表示会在主目录生成test用户文件夹，并在该文件夹下生成环境文件（.bash_logout, .bashrc, .cache/, .distlib/, examples.desktop, .pip/, .profile）<br>-s 表示shell 文件，一般都是/bin/bash<br>-m 用户名</p>
+<ol start="2">
+<li><p>给test用户添加密码，这里要求输入一次密码和一次验证密码</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo passwd test</span><br></pre></td></tr></tbody></table></figure>
+</li>
+<li><p>退出，用test用户登录，验证当前帐号：</p>
+</li>
+</ol>
+<ul>
+<li>查看 /etc/passwd，每个帐号一行，每行共7列：用户名，密码（x），uid，gid，用户信息说明，主文件夹，shell</li>
+<li>查看 /etc/shadow, 用户密码（已加密）</li>
+<li>查看/home/test,用ls -a查看.bashrc等隐藏文件是否存在</li>
+</ul>
+<p>至此，添加用户与root权限完成。</p>
+<h1 id="gcc编译显示大量warning-amp-tensorflow安装失败的解决"><a href="#gcc编译显示大量warning-amp-tensorflow安装失败的解决" class="headerlink" title="gcc编译显示大量warning &amp; tensorflow安装失败的解决"></a>gcc编译显示大量warning &amp; tensorflow安装失败的解决</h1><p>现象：在重新添加帐号后，安装librosa时，gcc编译过程中会出现大量的warning。并且，tensorflow始终安装失败，显示</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Downloading/unpacking tensorflow</span><br><span class="line">Could not find any downloads that satisfy the requirement tensorflow</span><br><span class="line">Cleaning up…</span><br><span class="line">No distributions at all found fo tensorflow</span><br><span class="line">Storing debug log for failure in /home/xxx/.pip/pip.log</span><br></pre></td></tr></tbody></table></figure>
+
+<p>原因：pip版本较低<br>解决：升级pip，在shell输入命令 pip install –upgrade pip</p>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://wangchujiang.com/linux-command/">linux-command</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zeze/p/6839230.html">https://www.cnblogs.com/zeze/p/6839230.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.chinaunix.net/uid-20732478-id-763411.html">http://blog.chinaunix.net/uid-20732478-id-763411.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kex1n/p/5199109.html">https://www.cnblogs.com/kex1n/p/5199109.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/lhw413/article/details/72806308">http://blog.csdn.net/lhw413/article/details/72806308</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/41875915/install-tensorflow-on-ubuntu-14-04">https://stackoverflow.com/questions/41875915/install-tensorflow-on-ubuntu-14-04</a></li>
 </ul>
 </body></html>
     

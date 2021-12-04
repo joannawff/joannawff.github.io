@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+<head>
+    <meta charset="utf-8">
+<title>课程学习——斯坦福CS224N深度学习自然语言处理lecture1 - This is Feifei&#39;s Blog.</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
+
+
+
+
+<meta name="description" content="">
+
+
+
+<meta name="keywords" content="NLP,ML,Data Science">
+
+
+
+    <meta name="description" content="最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。 NLP(Natural Language Processing)N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="课程学习——斯坦福CS224N深度学习自然语言处理lecture1">
+<meta property="og:url" content="http://example.com/2017/04/15/stanford-nlp-lecture1/index.html">
+<meta property="og:site_name" content="This is Feifei&#39;s Blog.">
+<meta property="og:description" content="最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。 NLP(Natural Language Processing)N">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2017/04/15/stanford-nlp-lecture1/lecture1.png">
+<meta property="article:published_time" content="2017-04-15T05:47:52.000Z">
+<meta property="article:modified_time" content="2021-12-04T07:51:59.689Z">
+<meta property="article:author" content="Feifei">
+<meta property="article:tag" content="nlp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2017/04/15/stanford-nlp-lecture1/lecture1.png">
+
+
+
+
+
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
+
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                    
+                    Feifei
+                    
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories/LifeStyle">Lifestyle</a>
+            
+            <a class="navbar-item "
+               href="/categories/Music">Music</a>
+            
+            <a class="navbar-item "
+               href="/categories/Technology">Technology</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+        </div>
+    </div>
+</nav>
+
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            课程学习——斯坦福CS224N深度学习自然语言处理lecture1
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2017-04-15T05:47:52.000Z" itemprop="datePublished">Apr 15 2017</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Technology/">Technology</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            6 minutes read (About 890 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p><img src="/2017/04/15/stanford-nlp-lecture1/lecture1.png"></p>
+<p>最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。<br>lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。</p>
+<h1 id="NLP-Natural-Language-Processing"><a href="#NLP-Natural-Language-Processing" class="headerlink" title="NLP(Natural Language Processing)"></a>NLP(Natural Language Processing)</h1><p>NLP是一门CS（计算机科学）、AI（人工智能）、Linguistic（语言学）交叉的学科，研究的是如何让计算机理解人类的自然语言的一门学科。若输入的是语音，则先进行语音分析（phonetic analysis）；若输入是文本，则先进行OCR文字识别或切词处理（Tokenization），然后进行如下四个层次的分析；</p>
+<ul>
+<li>形态学分析（morphological analysis）</li>
+<li>语法分析（syntacic analysis）</li>
+<li>语义分析（semantic analysis）</li>
+<li>语篇处理（discourse processing）</li>
+</ul>
+<h1 id="Human-Language"><a href="#Human-Language" class="headerlink" title="Human Language"></a>Human Language</h1><p>如果把语言比作信号，那么人类语言就像是一个精确的信号系统，可以通过声音、动作和图像来进行编码，大脑通过连续不断地的激活以获得最准确的意思。此外，人类本身大脑存储了海量的知识库，表达的语言具有上下文强依赖关系。</p>
+<h1 id="DL-Deep-Learning"><a href="#DL-Deep-Learning" class="headerlink" title="DL(Deep Learning)"></a>DL(Deep Learning)</h1><p>DL属于ML（Machine Learning）的一个分支，解决的是机器真正自动学习的问题。在80~00年代，ML任务并非真正的机器学习任务，需要人为地设计表征形式和特征，而这个过程也是最重要、工作量最大的部分，整个过程需要人去艰难地学习理论知识、设计各种特征、分析预测结果……久而久之ML任务就变成了一个参数优化的体力活。</p>
+<p>DL有个比较重要的概念——表征学习（Representation Learning），这是一个自动学习的过程，能够从原始的信号中自动学习到好的特征，总结出优秀、重要的表征形式。近年来随着GPU、分布式等存储计算能力的提高、数据集的扩大，DL在语音识别和图像处理两个领域的突破尤为显著。<br>DL和ML的对比可以从图中看出：</p>
+<h1 id="Deep-NLP"><a href="#Deep-NLP" class="headerlink" title="Deep NLP"></a>Deep NLP</h1><p>从近来的研究论文中也能发现，深度学习开始在NLP领域占领重要的作用。不像原来的手工提取特征计算的方式，Deep NLP有个重要的概念——向量空间（vector spaces），首先将文字转化成向量，然后向量结合成新的向量，用激活函数得到新的表征。<br>例如：</p>
+<ul>
+<li><p>传统的NLP形态学分析，单词由前缀（prefix）+词干（stem）+后缀（suffix）组成，而DL将其转化成了vector，两两带权重累加形成新的向量，如图所示：</p>
+</li>
+<li><p>机器翻译是NLP研究的开端，SMT（Statistical Machine Learning）是NLP发展史一个的里程碑，而如今的机器翻译大多以NMT（Nerual Machine Learning）为主，将源语句子映射为一个向量后再处理输出目标语句子。</p>
+</li>
+</ul>
+</body></html>
+    
+    </div>
+    
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/nlp/">#nlp</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2018/01/20/ubuntu-install-anaconda/">anaconda——unbuntu16.04下安装</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2017/04/08/stanford-nlp-lecture/">课程学习——斯坦福CS224N深度学习自然语言处理lecture2</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+
+
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://example.com/2017/04/15/stanford-nlp-lecture1/';
+        this.page.identifier = '2017/04/15/stanford-nlp-lecture1/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'feifeiwu' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2021 Feifei&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        target="_blank" rel="noopener" href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            
+        </div>
+    </div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
+
+<script>
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
+</script>
+
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+</script>
+
+    
+    
+    
+    
+<script src="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/js/lightgallery-all.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/js/jquery.justifiedGallery.min.js"></script>
+<script>
+    (function ($) {
+        $(document).ready(function () {
+            if (typeof($.fn.lightGallery) === 'function') {
+                $('.article.gallery').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof($.fn.justifiedGallery) === 'function') {
+                $('.justified-gallery').justifiedGallery();
+            }
+        });
+    })(jQuery);
+</script>
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+    <style>
+        .hljs {
+            position: relative;
+        }
+
+        .hljs .clipboard-btn {
+            float: right;
+            color: #9a9a9a;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hljs .clipboard-btn:hover {
+          color: #8a8a8a;
+        }
+
+        .hljs > .clipboard-btn {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+        }
+
+        .hljs:hover > .clipboard-btn {
+            display: inline;
+        }
+
+        .hljs > figcaption > .clipboard-btn {
+            margin-right: 4px;
+        }
+    </style>
+    <script>
+      $(document).ready(function () {
+        $('figure.hljs').each(function(i, figure) {
+          var codeId = 'code-' + i;
+          var code = figure.querySelector('.code');
+          var copyButton = $('<button>Copy <i class="far fa-clipboard"></i></button>');
+          code.id = codeId;
+          copyButton.addClass('clipboard-btn');
+          copyButton.attr('data-clipboard-target-id', codeId);
+
+          var figcaption = figure.querySelector('figcaption');
+
+          if (figcaption) {
+            figcaption.append(copyButton[0]);
+          } else {
+            figure.prepend(copyButton[0]);
+          }
+        })
+
+        var clipboard = new ClipboardJS('.clipboard-btn', {
+          target: function(trigger) {
+            return document.getElementById(trigger.getAttribute('data-clipboard-target-id'));
+          }
+        });
+        clipboard.on('success', function(e) {
+          e.clearSelection();
+        })
+      })
+    </script>
+
+    
+    
+
+    
+
+
+
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
+</body>
+</html>

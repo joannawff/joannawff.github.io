@@ -120,13 +120,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2021/11/18/measure-data-quality/" itemprop="url">measure data quality</a>
+            <a href="/2021/11/11/epoch-vs-step/" itemprop="url">Epoch vs. Step</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2021-11-18T00:46:00.000Z" itemprop="datePublished">Nov 18 2021</time>
+                <time datetime="2021-11-11T15:09:29.000Z" itemprop="datePublished">Nov 11 2021</time>
             
         </span>
         
@@ -134,13 +134,22 @@
         <span class="column is-narrow">
             
             
-            a few seconds read (About 0 words)
+            a minute read (About 215 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        
+        <html><head></head><body><p><img src="/2021/11/11/epoch-vs-step/step.jpeg"></p>
+<h1 id="Question-1000-steps-with-1-epoch-vs-running-100-steps-with-10-epoch"><a href="#Question-1000-steps-with-1-epoch-vs-running-100-steps-with-10-epoch" class="headerlink" title="Question: 1000 steps with 1 epoch vs running 100 steps with 10 epoch?"></a>Question: 1000 steps with 1 epoch vs running 100 steps with 10 epoch?</h1><p>Epoch: Number epoch equal to the number of times the algorithm sees the entire data set. So, each time the algorithm has seen all samples in the dataset, one epoch has completed.<br>Step: process one batch of data.<br>Relation: An epoch consists of one full cycle through the training data. This are usually many steps. As an example, if you have 2,000 images and use a batch size of 10 an epoch consists of 2,000 images / (10 images / step) = 200 steps.</p>
+<h1 id="More-batch-size-iteration-online-learning"><a href="#More-batch-size-iteration-online-learning" class="headerlink" title="More: batch size, iteration, online learning"></a>More: batch size, iteration, online learning</h1><p>Iteration: Every time you pass a batch of data through the neural network, you completed one iteration. In the case of neural networks, that means the forward pass and backward pass.<br>Relation: batch size * number of iterations = epoch</p>
+<p>Iteration: one batch of training samples.<br>Online learning: batch_size=1</p>
+<h1 id="Batch-size-impact-to-model"><a href="#Batch-size-impact-to-model" class="headerlink" title="Batch size impact to model"></a>Batch size impact to model</h1><p>Too small: it might get too slow because of significantly lower computational speed because of not exploiting vectorization to the full extent.<br>Too large: out of memory.</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://androidkt.com/batch-size-step-iteration-epoch-neural-network/">https://androidkt.com/batch-size-step-iteration-epoch-neural-network/</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38340311/what-is-the-difference-between-steps-and-epochs-in-tensorflow#:~:text=In%20easy%20words.%20Epoch%3A%20Epoch%20is%20considered%20as,and%20batch_size%20%3D%201000%20steps%20%3D%20100.%20Share">https://stackoverflow.com/questions/38340311/what-is-the-difference-between-steps-and-epochs-in-tensorflow#:~:text=In%20easy%20words.%20Epoch%3A%20Epoch%20is%20considered%20as,and%20batch_size%20%3D%201000%20steps%20%3D%20100.%20Share</a>.</li>
+</ul>
+</body></html>
     
     </div>
     
@@ -172,7 +181,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/23/">23</a></li>
+        <li><a class="pagination-link" href="/page/29/">29</a></li>
         
     </ul>
 </nav>
