@@ -120,13 +120,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2017/04/15/stanford-nlp-lecture1/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture1</a>
+            <a href="/2018/01/20/ubuntu-install-anaconda/" itemprop="url">anaconda——unbuntu16.04下安装</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2017-04-15T05:47:52.000Z" itemprop="datePublished">Apr 15 2017</time>
+                <time datetime="2018-01-20T08:00:51.000Z" itemprop="datePublished">Jan 20 2018</time>
             
         </span>
         
@@ -139,30 +139,35 @@
         <span class="column is-narrow">
             
             
-            6 minutes read (About 890 words)
+            a minute read (About 190 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2017/04/15/stanford-nlp-lecture1/lecture1.png"></p>
-<p>最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。<br>lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。</p>
-<h1 id="NLP-Natural-Language-Processing"><a href="#NLP-Natural-Language-Processing" class="headerlink" title="NLP(Natural Language Processing)"></a>NLP(Natural Language Processing)</h1><p>NLP是一门CS（计算机科学）、AI（人工智能）、Linguistic（语言学）交叉的学科，研究的是如何让计算机理解人类的自然语言的一门学科。若输入的是语音，则先进行语音分析（phonetic analysis）；若输入是文本，则先进行OCR文字识别或切词处理（Tokenization），然后进行如下四个层次的分析；</p>
-<ul>
-<li>形态学分析（morphological analysis）</li>
-<li>语法分析（syntacic analysis）</li>
-<li>语义分析（semantic analysis）</li>
-<li>语篇处理（discourse processing）</li>
-</ul>
-<h1 id="Human-Language"><a href="#Human-Language" class="headerlink" title="Human Language"></a>Human Language</h1><p>如果把语言比作信号，那么人类语言就像是一个精确的信号系统，可以通过声音、动作和图像来进行编码，大脑通过连续不断地的激活以获得最准确的意思。此外，人类本身大脑存储了海量的知识库，表达的语言具有上下文强依赖关系。</p>
-<h1 id="DL-Deep-Learning"><a href="#DL-Deep-Learning" class="headerlink" title="DL(Deep Learning)"></a>DL(Deep Learning)</h1><p>DL属于ML（Machine Learning）的一个分支，解决的是机器真正自动学习的问题。在80~00年代，ML任务并非真正的机器学习任务，需要人为地设计表征形式和特征，而这个过程也是最重要、工作量最大的部分，整个过程需要人去艰难地学习理论知识、设计各种特征、分析预测结果……久而久之ML任务就变成了一个参数优化的体力活。</p>
-<p>DL有个比较重要的概念——表征学习（Representation Learning），这是一个自动学习的过程，能够从原始的信号中自动学习到好的特征，总结出优秀、重要的表征形式。近年来随着GPU、分布式等存储计算能力的提高、数据集的扩大，DL在语音识别和图像处理两个领域的突破尤为显著。<br>DL和ML的对比可以从图中看出：</p>
-<h1 id="Deep-NLP"><a href="#Deep-NLP" class="headerlink" title="Deep NLP"></a>Deep NLP</h1><p>从近来的研究论文中也能发现，深度学习开始在NLP领域占领重要的作用。不像原来的手工提取特征计算的方式，Deep NLP有个重要的概念——向量空间（vector spaces），首先将文字转化成向量，然后向量结合成新的向量，用激活函数得到新的表征。<br>例如：</p>
-<ul>
-<li><p>传统的NLP形态学分析，单词由前缀（prefix）+词干（stem）+后缀（suffix）组成，而DL将其转化成了vector，两两带权重累加形成新的向量，如图所示：</p>
-</li>
-<li><p>机器翻译是NLP研究的开端，SMT（Statistical Machine Learning）是NLP发展史一个的里程碑，而如今的机器翻译大多以NMT（Nerual Machine Learning）为主，将源语句子映射为一个向量后再处理输出目标语句子。</p>
-</li>
+        <html><head></head><body><p><img src="/2018/01/20/ubuntu-install-anaconda/anaconda.jpeg"></p>
+<ol>
+<li>在官网下载Anaconda，注意版本</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://www.anaconda.com/download/#linux">https://www.anaconda.com/download/#linux</a></p>
+<ol start="2">
+<li>在终端输入如下命令<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd 下载</span><br><span class="line">bash Anaconda2-5.0.1-Linux-x86_64.sh</span><br></pre></td></tr></tbody></table></figure></li>
+<li>一直按回车键，中间有两次要填写yes的时候</li>
+</ol>
+<p>第一次：同意接受协议</p>
+<p>第二次：同意将Anaconda2安装路径写入/home/joanna/.bashrc</p>
+<ol start="4">
+<li>至此，安装成功，最后出现提示</li>
+</ol>
+<p>Thank you for installing Anaconda2!</p>
+<ol start="5">
+<li>验证，在终端输入python，发现还是系统默认的pyhton，没有Anaconda等字样出现，则在shell输入命令<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></tbody></table></figure>
+重新输入python，系统显示<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python 2.7.14 |Anaconda, Inc.| (default, Oct 16 2017, 17:29:19)</span><br></pre></td></tr></tbody></table></figure>
+在shell输入命令<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br></pre></td></tr></tbody></table></figure>
+系统显示一大堆可用的packages，至此验证结束。</li>
+</ol>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="http://blog.csdn.net/woainishifu/article/details/74978647">http://blog.csdn.net/woainishifu/article/details/74978647</a></li>
 </ul>
 </body></html>
     
@@ -198,7 +203,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/29/">29</a></li>
+        <li><a class="pagination-link" href="/page/30/">30</a></li>
         
     </ul>
 </nav>

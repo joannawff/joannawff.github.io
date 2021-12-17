@@ -120,13 +120,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2016/12/10/nltk-collocation/" itemprop="url">nltk源码-collocation</a>
+            <a href="/2017/04/08/stanford-nlp-lecture/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture2</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2016-12-10T07:24:27.000Z" itemprop="datePublished">Dec 10 2016</time>
+                <time datetime="2017-04-08T07:35:14.000Z" itemprop="datePublished">Apr 8 2017</time>
             
         </span>
         
@@ -139,36 +139,61 @@
         <span class="column is-narrow">
             
             
-            11 minutes read (About 1703 words)
+            9 minutes read (About 1351 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2016/12/10/nltk-collocation/collection.jpeg"></p>
-<p>实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。</p>
-<p>这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation源码，它采用的是基于窗口size的搭配策略，与我实际工作中的搭配过程大相径庭。因此，现在花点时间来总结一下nltk和实习期间所接触的collocation。</p>
-<h1 id="nltk搭配实验"><a href="#nltk搭配实验" class="headerlink" title="nltk搭配实验"></a>nltk搭配实验</h1><p>NLTK的搭配方法主要采用基于窗口大小的算法，NLTK共提供了二元，三元，四元的搭配抽取，NLTK的搭配过程:</p>
-<h2 id="语料处理"><a href="#语料处理" class="headerlink" title="语料处理"></a>语料处理</h2><p>NLTK里的语料采用webtext，内涵6个文件：overheard.txt，pirates.txt，singles.txt，wine.txt，这些文本文件都是txt格式，每句一行，如图：</p>
-<p>首先对这些语料进行处理，大小写转换，并将纯文本转化成单词的list格式，返回[];</p>
-<h2 id="寻找搭配对"><a href="#寻找搭配对" class="headerlink" title="寻找搭配对"></a>寻找搭配对</h2><p>指定窗口n（默认为2），若抽取非连续短语，则窗口大小要大于抽取的元组大小。如抽取二元组，则window_size&gt;=3。在此过程中，首先创建nltk.probability.FreqDist对象wfd和bfd，获得每个单词在语料库中的频率和元组的联合频率，并指定开头和结尾的字符(默认为None)。此时，所有的n元组都是候选搭配。查找n-gram过程又分为连续和非连续，连续过程由ngram实现，非连续过程由skipgrams实现，找到该句中的所有元组。</p>
-<p>以二元组为例：创建BigramCollocatinFinder对象cf，调用BigramCollocatinFinder.from_words函数，利用nltk.util.ngrams得到每句话所有的n元组，并计算得到语料库中的单词频率wfd和元组频率bfd；返回一个新的初始化了wfd和bfd值的BigramCollocatinFinder对象cf。</p>
-<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><p>首先过滤单词，如大小写转换，过滤停用词和小于长度为3的单词；可调用apply_freq_filter(min_freq)函数，指定最小频率min_freq，将频率小于min_freq的单词移除，</p>
-<p>然后过滤元组，依旧可以调用apply_freq_filter(self, min_freq)函数，指定最小频率min_freq，将频率小于min_freq的候选搭配移除；或是通过apply_ngram_filter(self, fn)，指定函数fn，可过滤一切满足条件fn的元组；</p>
-<p>此时，返回一个预处理后的BigramCollocatinFinder或TrigramCollocatinFinder对象cf；</p>
-<h2 id="给候选搭配打分，度量搭配关联度（-）"><a href="#给候选搭配打分，度量搭配关联度（-）" class="headerlink" title="给候选搭配打分，度量搭配关联度（*）"></a>给候选搭配打分，度量搭配关联度（*）</h2><p>指定一个打分策略score_fn，生成一个由大到小排序的(ngram, score)序列，由score_ngrams(sef, score_fn)实现；这里的score_fn一般由用户在运行参数中确定，NLTK默认使用似然比（likelihood ratio）来度量元组中单词的关联度，由nltk.metrics.BigramAssocMeasures.likelihood_ratio实现；并将ngram排序，得到(ngram, rank)序列1；</p>
-<p>然后根据打分的结果，确定相近的词组找到最佳的Nbest个搭配，即为我们得到的带间隔的搭配短语；</p>
-<p>采用新的打分策略compare_fn，NLTK默认采用ngram频率/语料库规模N，可得到新(ngram, rank)序列2；</p>
-<p>对这两个序列，采用speraman相关性分析，得到该语料的总体相关程度。</p>
-<h2 id="搭配关联分析"><a href="#搭配关联分析" class="headerlink" title="搭配关联分析"></a>搭配关联分析</h2><p>在寻找搭配的过程中涉及到了搭配关联分析，当用户未指定时，NLTK默认采用似然比作为score_fn来分析搭配关系。</p>
-<p>初始状态时，score_fn的参数为空；经前期1-3步处理，可得到如下三个结果作为score_fn的参数：料库规模，即语料所有词的词频；每个候选ngram的规模，采用公式：</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">元组出现频率/(窗口大小-1)；</span><br></pre></td></tr></tbody></table></figure>
-<p>Ngram中各个词的规模，即词频；通过似然比等把上述三个参数代入计算，得到似然值作为当ngram的得分，以(ngram, score)作为结果降序排列；似然比公式：<br>对于每个(ngram, score)元组，设置一个rank_gap，只有当两个ngram的分数差&gt;rank_gap时才会将ngram列入排序列表中，否则就舍弃，这么做可以增大结果集中各个ngram的得分差，便于speraman分析，这步得到关于ngram排列的元组(ngram, rank)序列1.</p>
-<p>除了制定似然比作为score_fn，得到经排序后的(ngram, score)序列，NLTK还要求指定一个compare_score(即ngram频率/语料库大小N)作为打分策略，得到新的(ngram, score)序列2；</p>
-<p>进行speraman相关性分析。将上步的两个序列作为参数，传入spearman_correlation中。对于序列1和序列2，计算相同ngram的rank差，并计算speraman相关系数，采用公式：(其中，k表示在序列1和序列2中都出现的ngram），n为k的个数)</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 - (6 res / (n (n*n - 1)))</span><br><span class="line">res = ∑(ranks1[k] - ranks2[k])^2</span><br></pre></td></tr></tbody></table></figure>
-<p>因此，计算得到的speraman相关系数在[-1, 1]之间，这个结果就表示了该语料的总体相关程度。NLTK度量搭配候选匹配程度的策略还很多，比如PMI值、Poisson-Stirling法、皮尔逊卡方检验等。</p>
-<h2 id="我的实验总结"><a href="#我的实验总结" class="headerlink" title="我的实验总结"></a>我的实验总结</h2><p>我对nltk的搭配策略进行了小小的实验，发现NLTK中带间隔的短语抽取，与连续短语抽取的不同之处在于，当窗口大小大于抽取的元组时，使用skip-gram抽取候选gram。此次仅以单间隔的二元短语为例进行试验，效果不尽如意。从结果中看来，许多连续的短语也都抽取出来，而且非间隔的短语构成搭配的强度不大。分析看来，试验缺乏深层的分析，如过滤连续可搭配的短语等。而且本次实验只采用似然比作为得分策略，不具有比较性。</p>
+        <html><head></head><body><p><img src="/2017/04/08/stanford-nlp-lecture/lecture.jpeg"></p>
+<p>课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。</p>
+<h1 id="WordNet"><a href="#WordNet" class="headerlink" title="WordNet"></a>WordNet</h1><p>本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。</p>
+<p>WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关系。它们分别用两个CSV文件来保存：synsets.txt和hypernym.txt。</p>
+<h2 id="同义词集"><a href="#同义词集" class="headerlink" title="同义词集"></a>同义词集</h2><p>synsets.txt保存了一系列的同义词，每行由3列，每列用逗号分隔，形如：id,synset,gloss<br>其中；id=编号，synset=同义词集（单词间用空格分隔），gloss=注解<br>举例：</p>
+<p>45,AND_circuit AND_gate,a circuit in a computer that fires only when all of its inputs fire</p>
+<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><p>hypernyms.txt保存同义词集之间的关系，每行是由逗号分隔的id序列，形如：id1,id2,id3…</p>
+<ul>
+<li>继承关系（hyperonymy, hyponymy, is-a）</li>
+</ul>
+<p>这类描述的是通用词与具体词之间的关系，比如：<br>通用词：{furniture, piece_of_furniture}<br>具体词：{bed} {bunkbed}</p>
+<ul>
+<li>部分-整体关系(part-whole)</li>
+</ul>
+<p>这类描述的是部分与整体之间的包含关系，比如整体={seat}，部分={leg}</p>
+<ul>
+<li>交叉词性关系（Cross-POS）</li>
+</ul>
+<p>实际上，WordNet主要按照词性（POS）来获取词间关系，因此WordNet含有4个子网络，分别存储名词、动词、形容词和副词。Cross-POS连接的是词干相同、词性不同的词，如ovserve(verb)、observant(adjective)、observation(noun)。</p>
+<h2 id="SAP（shortest-ancestral-path，最短祖先路径）"><a href="#SAP（shortest-ancestral-path，最短祖先路径）" class="headerlink" title="SAP（shortest ancestral path，最短祖先路径）"></a>SAP（shortest ancestral path，最短祖先路径）</h2><p>SAP是WordNet的一种数据结构，表示两个不同结点到共同祖先的最短距离，这可以用来计算两个词之间的距离相似度。如图所示，结点3和结点11的SAP=4：</p>
+<p>现有两个名词A和B，则A与B之间的距离distance(A,B)计算方式为：<br>step1: 若A、B都不是名词，distance=∞<br>step2: distance = min(sap(v(A),w(B))),其中V(A)表示A的任意同义词集，w(B)表示B的任意同义词集。</p>
+<p>##Outcast<br>Outcast就是找出在一组词中与其他最不相似的词，计算方法相对SAP比较简单暴力，就是计算某词语其他词的距离之和，最大的那个就是要求的解了。即：</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(di)^2 = (dist(Ai, A1))^2 + (dist(Ai, A2))^2 + … + (dist(Ai, An))^2</span><br></pre></td></tr></tbody></table></figure>
+<p>注意，wordnet工具提供了distance(),sap()和outcast()方法。</p>
+<h2 id="NLTKL与WordNet"><a href="#NLTKL与WordNet" class="headerlink" title="NLTKL与WordNet"></a>NLTKL与WordNet</h2><p>NLTK也有WordNet接口，详情参考《NLTK源码阅读——WordNet》</p>
+<h1 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h1><p>尽管WordNet能够一定程度上表达单词得的含义，但是具有如下不足：</p>
+<ul>
+<li>新词的时效性跟不上</li>
+<li>需要人工去搜集、创建</li>
+<li>不考虑上下文信息</li>
+<li>难以准确地定位两个词的相似度</li>
+</ul>
+<p>word2vec是google于2013年提出的工具，通过词向量（word embedding）来更好地度量词与词之间的相似性。起初vector的做法one-hot向量法：对于一个句子，如”I am a student.”，每个单词的向量表示为：</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">I: [1,0,0,0]</span><br><span class="line">am: [0,1,0,0]</span><br><span class="line">a: [0,0,1,0]</span><br><span class="line">student: [0,0,0,1]</span><br></pre></td></tr></tbody></table></figure>
+<p>即单词的向量维度K=词典大小，这很容易造成维度灾难问题。对于这种情况，对应的解决办法是利用向量空间模型（Vector Space Model，简称VSM）将one-hot向量映射为稠密连续的Distributed Representation，其基本思想是：通过训练将每一个词映射成一个固定长度的短向量，构成词向量空间，每一个词向量相当于是空间中的一个点，那么点间距离就可以用来度量词间相似度了。</p>
+<p>Distributed Representation的形式如[0.792,-0.177,-0.107,0.109,-0.542,…]，维度一般是50-100维，向量表示不唯一。</p>
+<p>word2vec主要包含Skip-gram和Continious Bag of Words(CBOW)两种模型，分别采用Hierarchical Softmax 和Negative Sampling两种框架来实现。Ski-gram指给定中心词求上下文的概率，CBOW则相反，指给定上下文求中心词的概率。下面以Hierachical Softmax实现CBOW模型为例介绍实现的过程。</p>
+<h2 id="CBOW模型的Hierachical-Softmax实现"><a href="#CBOW模型的Hierachical-Softmax实现" class="headerlink" title="CBOW模型的Hierachical Softmax实现"></a>CBOW模型的Hierachical Softmax实现</h2><p>模型有3层：输入层、投影层、输出层. 注意：word embedding是术语表达，而word2vec是google提出的工具，并非指模型或算法。<br>在word2vec中采用Huffman编码，利用词频作为Huffman树的结点权值，权值大的编码为1，为左孩子结点；权值小的编码为0，为右孩子结点。</p>
+<h2 id="SG（Skip-Gram）"><a href="#SG（Skip-Gram）" class="headerlink" title="SG（Skip-Gram）"></a>SG（Skip-Gram）</h2><p>SG根据中心词预测上下文，包含三层：input（输入层）、projection（投影层）、output（输出层）</p>
+<h2 id="CBOW（Continious-Bag-of-Words）"><a href="#CBOW（Continious-Bag-of-Words）" class="headerlink" title="CBOW（Continious Bag of Words）"></a>CBOW（Continious Bag of Words）</h2><p>CBOW正好与SG相反，根据上下文预测中心词。</p>
+<ul>
+<li>Hierachical Softmax</li>
+<li>Negative Sample</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li>wordnet</li>
+<li>《Word2Vec的前世今生》</li>
+<li>《Distributed Representations ofWords and Phrases and their Compositionality》</li>
+</ul>
 </body></html>
     
     </div>
@@ -203,7 +228,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/29/">29</a></li>
+        <li><a class="pagination-link" href="/page/30/">30</a></li>
         
     </ul>
 </nav>
