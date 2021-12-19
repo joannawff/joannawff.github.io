@@ -127,6 +127,59 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
+            <a href="/2021/12/19/Ensemble-Stacking/" itemprop="url">Ensemble (2) - Stacking</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2021-12-19T09:08:59.000Z" itemprop="datePublished">Dec 19 2021</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/technology/">technology</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            2 minutes read (About 341 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><p><img src="/2021/12/19/Ensemble-Stacking/stacking_wallpaper.jpeg"><br><font size="2"><i>Note: image is downloaded from <a target="_blank" rel="noopener" href="https://www.bing.com/images/search?view=detailV2&amp;ccid=l+H3QHXq&amp;id=3F09108A25F29389158FE90E693164C7A7CCFDCB&amp;thid=OIP.l-H3QHXq_iY64VpZZN1QRAHaE7&amp;mediaurl=https://lonelyplanetwpnews.imgix.net/2018/09/GettyImages-950003310.jpg&amp;exph=3280&amp;expw=4928&amp;q=stacking+wallpaper&amp;simid=607996227747381605&amp;FORM=IRPRST&amp;ck=9995BC034E8FB5ACDD5562C9DDF931D8&amp;selectedIndex=56&amp;ajaxhist=0&amp;ajaxserp=0">here</a>.</i></font></p>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>Stacking is one of <b>mixing comianition</b> methods in ensemble learning. It’s a total different way to <b>boosting</b>.</p>
+<p>Two layers models in stacking:</p>
+<ul>
+<li>L1: Base learners. To train multiple models to get predictions.</li>
+<li>L2: Meta learner. To treat base learners predictions as next training data.</li>
+</ul>
+<p><img src="/2021/12/19/Ensemble-Stacking/stacking.jpeg"></p>
+<h1 id="Code-Scikit-Learn"><a href="#Code-Scikit-Learn" class="headerlink" title="Code (Scikit-Learn)"></a>Code (Scikit-Learn)</h1><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html</a></p>
+<h2 id="Stacking-Classification"><a href="#Stacking-Classification" class="headerlink" title="Stacking Classification"></a>Stacking Classification</h2><figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_iris</span><br><span class="line">from sklearn.ensemble import RandomForestClassifier</span><br><span class="line">from sklearn.svm import LinearSVC</span><br><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.preprocessing import StandardScaler</span><br><span class="line">from sklearn.pipeline import make_pipeline</span><br><span class="line">from sklearn.ensemble import StackingClassifier</span><br><span class="line">X, y = load_iris(return_X_y=True)</span><br><span class="line">estimators = [</span><br><span class="line">   ("rf", RandomForestClassifier(n_estimators=10, random_state=42)),</span><br><span class="line">   ("svr", make_pipeline(StandardScaler(), LinearSVC(random_state=42))),</span><br><span class="line">]</span><br><span class="line">clf = StackingClassifier(estimators=estimators, final_estimator=LogisticRegression())</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)</span><br><span class="line">clf.fit(X_train, y_train).score(X_test, y_test)</span><br><span class="line"># Output: 0.9…</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Sstacking-Regression"><a href="#Sstacking-Regression" class="headerlink" title="Sstacking Regression"></a>Sstacking Regression</h2><figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_diabetes</span><br><span class="line">from sklearn.linear_model import RidgeCV</span><br><span class="line">from sklearn.svm import LinearSVR</span><br><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">from sklearn.ensemble import StackingRegressor</span><br><span class="line">X, y = load_diabetes(return_X_y=True)</span><br><span class="line">estimators = [("lr", RidgeCV()), ("svr", LinearSVR(random_state=42))]</span><br><span class="line">reg = StackingRegressor(</span><br><span class="line">   estimators=estimators,</span><br><span class="line">   final_estimator=RandomForestRegressor(n_estimators=10, random_state=42),</span><br><span class="line">)</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)</span><br><span class="line">reg.fit(X_train, y_train).score(X_test, y_test)</span><br><span class="line"># Output: 0.3...</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p> <a target="_blank" rel="noopener" href="https://learning.oreilly.com/library/view/ensemble-learning-for/9781484259405/html/489264_1_En_4_Chapter.xhtml">https://learning.oreilly.com/library/view/ensemble-learning-for/9781484259405/html/489264_1_En_4_Chapter.xhtml</a></p>
+</body></html>
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
             <a href="/2021/12/18/Ensemble/" itemprop="url">Ensemble (1)</a>
         
     </h1>

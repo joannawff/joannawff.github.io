@@ -120,13 +120,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2016/12/10/nltk-collocation/" itemprop="url">nltk源码-collocation</a>
+            <a href="/2017/04/15/stanford-nlp-lecture1/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture1</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2016-12-10T07:24:27.000Z" itemprop="datePublished">Dec 10 2016</time>
+                <time datetime="2017-04-15T05:47:52.000Z" itemprop="datePublished">Apr 15 2017</time>
             
         </span>
         
@@ -139,36 +139,31 @@
         <span class="column is-narrow">
             
             
-            11 minutes read (About 1703 words)
+            6 minutes read (About 890 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2016/12/10/nltk-collocation/collection.jpeg"></p>
-<p>实习期接触了人机多轮对话领域，师傅的工作是多轮理解，我的任务是用特征工程在小样本上调研用户多轮对话是否意图保持。涉及的技术不深，大部分都是师傅想出策略，然后我去执行，查看效果验证该策略是否可用。</p>
-<p>这是一个特征调研的工作，除了NLP的basic seg、pos、ner等特征外，其他的特征都是基于知识库的，也用到了tag（标签）与collocation（搭配）。之前阅读过nltk的collocation源码，它采用的是基于窗口size的搭配策略，与我实际工作中的搭配过程大相径庭。因此，现在花点时间来总结一下nltk和实习期间所接触的collocation。</p>
-<h1 id="nltk搭配实验"><a href="#nltk搭配实验" class="headerlink" title="nltk搭配实验"></a>nltk搭配实验</h1><p>NLTK的搭配方法主要采用基于窗口大小的算法，NLTK共提供了二元，三元，四元的搭配抽取，NLTK的搭配过程:</p>
-<h2 id="语料处理"><a href="#语料处理" class="headerlink" title="语料处理"></a>语料处理</h2><p>NLTK里的语料采用webtext，内涵6个文件：overheard.txt，pirates.txt，singles.txt，wine.txt，这些文本文件都是txt格式，每句一行，如图：</p>
-<p>首先对这些语料进行处理，大小写转换，并将纯文本转化成单词的list格式，返回[];</p>
-<h2 id="寻找搭配对"><a href="#寻找搭配对" class="headerlink" title="寻找搭配对"></a>寻找搭配对</h2><p>指定窗口n（默认为2），若抽取非连续短语，则窗口大小要大于抽取的元组大小。如抽取二元组，则window_size&gt;=3。在此过程中，首先创建nltk.probability.FreqDist对象wfd和bfd，获得每个单词在语料库中的频率和元组的联合频率，并指定开头和结尾的字符(默认为None)。此时，所有的n元组都是候选搭配。查找n-gram过程又分为连续和非连续，连续过程由ngram实现，非连续过程由skipgrams实现，找到该句中的所有元组。</p>
-<p>以二元组为例：创建BigramCollocatinFinder对象cf，调用BigramCollocatinFinder.from_words函数，利用nltk.util.ngrams得到每句话所有的n元组，并计算得到语料库中的单词频率wfd和元组频率bfd；返回一个新的初始化了wfd和bfd值的BigramCollocatinFinder对象cf。</p>
-<h2 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h2><p>首先过滤单词，如大小写转换，过滤停用词和小于长度为3的单词；可调用apply_freq_filter(min_freq)函数，指定最小频率min_freq，将频率小于min_freq的单词移除，</p>
-<p>然后过滤元组，依旧可以调用apply_freq_filter(self, min_freq)函数，指定最小频率min_freq，将频率小于min_freq的候选搭配移除；或是通过apply_ngram_filter(self, fn)，指定函数fn，可过滤一切满足条件fn的元组；</p>
-<p>此时，返回一个预处理后的BigramCollocatinFinder或TrigramCollocatinFinder对象cf；</p>
-<h2 id="给候选搭配打分，度量搭配关联度（-）"><a href="#给候选搭配打分，度量搭配关联度（-）" class="headerlink" title="给候选搭配打分，度量搭配关联度（*）"></a>给候选搭配打分，度量搭配关联度（*）</h2><p>指定一个打分策略score_fn，生成一个由大到小排序的(ngram, score)序列，由score_ngrams(sef, score_fn)实现；这里的score_fn一般由用户在运行参数中确定，NLTK默认使用似然比（likelihood ratio）来度量元组中单词的关联度，由nltk.metrics.BigramAssocMeasures.likelihood_ratio实现；并将ngram排序，得到(ngram, rank)序列1；</p>
-<p>然后根据打分的结果，确定相近的词组找到最佳的Nbest个搭配，即为我们得到的带间隔的搭配短语；</p>
-<p>采用新的打分策略compare_fn，NLTK默认采用ngram频率/语料库规模N，可得到新(ngram, rank)序列2；</p>
-<p>对这两个序列，采用speraman相关性分析，得到该语料的总体相关程度。</p>
-<h2 id="搭配关联分析"><a href="#搭配关联分析" class="headerlink" title="搭配关联分析"></a>搭配关联分析</h2><p>在寻找搭配的过程中涉及到了搭配关联分析，当用户未指定时，NLTK默认采用似然比作为score_fn来分析搭配关系。</p>
-<p>初始状态时，score_fn的参数为空；经前期1-3步处理，可得到如下三个结果作为score_fn的参数：料库规模，即语料所有词的词频；每个候选ngram的规模，采用公式：</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">元组出现频率/(窗口大小-1)；</span><br></pre></td></tr></tbody></table></figure>
-<p>Ngram中各个词的规模，即词频；通过似然比等把上述三个参数代入计算，得到似然值作为当ngram的得分，以(ngram, score)作为结果降序排列；似然比公式：<br>对于每个(ngram, score)元组，设置一个rank_gap，只有当两个ngram的分数差&gt;rank_gap时才会将ngram列入排序列表中，否则就舍弃，这么做可以增大结果集中各个ngram的得分差，便于speraman分析，这步得到关于ngram排列的元组(ngram, rank)序列1.</p>
-<p>除了制定似然比作为score_fn，得到经排序后的(ngram, score)序列，NLTK还要求指定一个compare_score(即ngram频率/语料库大小N)作为打分策略，得到新的(ngram, score)序列2；</p>
-<p>进行speraman相关性分析。将上步的两个序列作为参数，传入spearman_correlation中。对于序列1和序列2，计算相同ngram的rank差，并计算speraman相关系数，采用公式：(其中，k表示在序列1和序列2中都出现的ngram），n为k的个数)</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1 - (6 res / (n (n*n - 1)))</span><br><span class="line">res = ∑(ranks1[k] - ranks2[k])^2</span><br></pre></td></tr></tbody></table></figure>
-<p>因此，计算得到的speraman相关系数在[-1, 1]之间，这个结果就表示了该语料的总体相关程度。NLTK度量搭配候选匹配程度的策略还很多，比如PMI值、Poisson-Stirling法、皮尔逊卡方检验等。</p>
-<h2 id="我的实验总结"><a href="#我的实验总结" class="headerlink" title="我的实验总结"></a>我的实验总结</h2><p>我对nltk的搭配策略进行了小小的实验，发现NLTK中带间隔的短语抽取，与连续短语抽取的不同之处在于，当窗口大小大于抽取的元组时，使用skip-gram抽取候选gram。此次仅以单间隔的二元短语为例进行试验，效果不尽如意。从结果中看来，许多连续的短语也都抽取出来，而且非间隔的短语构成搭配的强度不大。分析看来，试验缺乏深层的分析，如过滤连续可搭配的短语等。而且本次实验只采用似然比作为得分策略，不具有比较性。</p>
+        <html><head></head><body><p><img src="/2017/04/15/stanford-nlp-lecture1/lecture1.png"></p>
+<p>最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。<br>lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。</p>
+<h1 id="NLP-Natural-Language-Processing"><a href="#NLP-Natural-Language-Processing" class="headerlink" title="NLP(Natural Language Processing)"></a>NLP(Natural Language Processing)</h1><p>NLP是一门CS（计算机科学）、AI（人工智能）、Linguistic（语言学）交叉的学科，研究的是如何让计算机理解人类的自然语言的一门学科。若输入的是语音，则先进行语音分析（phonetic analysis）；若输入是文本，则先进行OCR文字识别或切词处理（Tokenization），然后进行如下四个层次的分析；</p>
+<ul>
+<li>形态学分析（morphological analysis）</li>
+<li>语法分析（syntacic analysis）</li>
+<li>语义分析（semantic analysis）</li>
+<li>语篇处理（discourse processing）</li>
+</ul>
+<h1 id="Human-Language"><a href="#Human-Language" class="headerlink" title="Human Language"></a>Human Language</h1><p>如果把语言比作信号，那么人类语言就像是一个精确的信号系统，可以通过声音、动作和图像来进行编码，大脑通过连续不断地的激活以获得最准确的意思。此外，人类本身大脑存储了海量的知识库，表达的语言具有上下文强依赖关系。</p>
+<h1 id="DL-Deep-Learning"><a href="#DL-Deep-Learning" class="headerlink" title="DL(Deep Learning)"></a>DL(Deep Learning)</h1><p>DL属于ML（Machine Learning）的一个分支，解决的是机器真正自动学习的问题。在80~00年代，ML任务并非真正的机器学习任务，需要人为地设计表征形式和特征，而这个过程也是最重要、工作量最大的部分，整个过程需要人去艰难地学习理论知识、设计各种特征、分析预测结果……久而久之ML任务就变成了一个参数优化的体力活。</p>
+<p>DL有个比较重要的概念——表征学习（Representation Learning），这是一个自动学习的过程，能够从原始的信号中自动学习到好的特征，总结出优秀、重要的表征形式。近年来随着GPU、分布式等存储计算能力的提高、数据集的扩大，DL在语音识别和图像处理两个领域的突破尤为显著。<br>DL和ML的对比可以从图中看出：</p>
+<h1 id="Deep-NLP"><a href="#Deep-NLP" class="headerlink" title="Deep NLP"></a>Deep NLP</h1><p>从近来的研究论文中也能发现，深度学习开始在NLP领域占领重要的作用。不像原来的手工提取特征计算的方式，Deep NLP有个重要的概念——向量空间（vector spaces），首先将文字转化成向量，然后向量结合成新的向量，用激活函数得到新的表征。<br>例如：</p>
+<ul>
+<li><p>传统的NLP形态学分析，单词由前缀（prefix）+词干（stem）+后缀（suffix）组成，而DL将其转化成了vector，两两带权重累加形成新的向量，如图所示：</p>
+</li>
+<li><p>机器翻译是NLP研究的开端，SMT（Statistical Machine Learning）是NLP发展史一个的里程碑，而如今的机器翻译大多以NMT（Nerual Machine Learning）为主，将源语句子映射为一个向量后再处理输出目标语句子。</p>
+</li>
+</ul>
 </body></html>
     
     </div>
@@ -203,7 +198,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/31/">31</a></li>
+        <li><a class="pagination-link" href="/page/33/">33</a></li>
         
     </ul>
 </nav>

@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Feifei&#39;s Blog.</title>
+<title>Ensemble (2) - Stacking - Feifei&#39;s Blog.</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -18,14 +18,21 @@
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Feifei&#39;s Blog.">
-<meta property="og:url" content="http://example.com/page/30/index.html">
+    <meta name="description" content="Note: image is downloaded from here. WhatStacking is one of mixing comianition methods in ensemble learning. It’s a total different way to boosting. Two layers models in stacking:  L1: Base learners.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ensemble (2) - Stacking">
+<meta property="og:url" content="http://example.com/2021/12/19/Ensemble-Stacking/index.html">
 <meta property="og:site_name" content="Feifei&#39;s Blog.">
+<meta property="og:description" content="Note: image is downloaded from here. WhatStacking is one of mixing comianition methods in ensemble learning. It’s a total different way to boosting. Two layers models in stacking:  L1: Base learners.">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2021/12/19/Ensemble-Stacking/stacking_wallpaper.jpeg">
+<meta property="og:image" content="http://example.com/2021/12/19/Ensemble-Stacking/stacking.jpeg">
+<meta property="article:published_time" content="2021-12-19T09:08:59.000Z">
+<meta property="article:modified_time" content="2021-12-19T09:44:55.576Z">
 <meta property="article:author" content="Feifei">
-<meta property="article:tag" content="NLP,ML,Data Science">
+<meta property="article:tag" content="machine learning, ensemble">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/12/19/Ensemble-Stacking/stacking_wallpaper.jpeg">
 
 
 
@@ -116,90 +123,102 @@
 
     <section class="section">
     <div class="container">
-    
-        <article class="article content gallery" itemscope itemprop="blogPost">
+    <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2016/11/20/reading-knowledge-graph/" itemprop="url">读书笔记——《大叔据智能》第2章：知识图谱</a>
+            Ensemble (2) - Stacking
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2016-11-20T07:06:15.000Z" itemprop="datePublished">Nov 20 2016</time>
+                <time datetime="2021-12-19T09:08:59.000Z" itemprop="datePublished">Dec 19 2021</time>
             
         </span>
         
         <span class="column is-narrow article-category">
             <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Technology/">Technology</a>
+            <a class="article-category-link" href="/categories/technology/">technology</a>
         </span>
         
         
         <span class="column is-narrow">
             
             
-            3 minutes read (About 406 words)
+            2 minutes read (About 341 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2016/11/20/reading-knowledge-graph/knowledge_graph.png"></p>
-<h1 id="读书笔记——《大叔据智能》第2章：知识图谱"><a href="#读书笔记——《大叔据智能》第2章：知识图谱" class="headerlink" title="读书笔记——《大叔据智能》第2章：知识图谱"></a>读书笔记——《大叔据智能》第2章：知识图谱</h1><p>知识图谱的基本组成单元是实体（entity）；<br>数据来源：</p>
+        <html><head></head><body><p><img src="/2021/12/19/Ensemble-Stacking/stacking_wallpaper.jpeg"><br><font size="2"><i>Note: image is downloaded from <a target="_blank" rel="noopener" href="https://www.bing.com/images/search?view=detailV2&amp;ccid=l+H3QHXq&amp;id=3F09108A25F29389158FE90E693164C7A7CCFDCB&amp;thid=OIP.l-H3QHXq_iY64VpZZN1QRAHaE7&amp;mediaurl=https://lonelyplanetwpnews.imgix.net/2018/09/GettyImages-950003310.jpg&amp;exph=3280&amp;expw=4928&amp;q=stacking+wallpaper&amp;simid=607996227747381605&amp;FORM=IRPRST&amp;ck=9995BC034E8FB5ACDD5562C9DDF931D8&amp;selectedIndex=56&amp;ajaxhist=0&amp;ajaxserp=0">here</a>.</i></font></p>
+<h1 id="What"><a href="#What" class="headerlink" title="What"></a>What</h1><p>Stacking is one of <b>mixing comianition</b> methods in ensemble learning. It’s a total different way to <b>boosting</b>.</p>
+<p>Two layers models in stacking:</p>
 <ul>
-<li>大规模知识库：Wikipedia、百度百科、Wordnet，实体关系、领域知识以结构化方式存储；</li>
-<li>链接数据：采用RDF框架描述结构化知识，实体关系以三元组方式存在，RDF链接构成语义Web知识库；</li>
-<li>网页文本数据：从无结构化网页中抽取结构化信息；</li>
-<li>多数据源知识融合：实体、关系与实例融合；</li>
+<li>L1: Base learners. To train multiple models to get predictions.</li>
+<li>L2: Meta learner. To treat base learners predictions as next training data.</li>
 </ul>
-<p>主要应用：<br>QU、QA、DR（Document Representation）</p>
-<p>采用技术：</p>
-<ul>
-<li>Entity Linking：实体链指，包含实体识别（EntityRecognition）和实体消歧（EntityDisambiguation）两个任务，涉及文本图像、社交媒体等领域；</li>
-<li>Relation Extraction：关系抽取，有bootstrapping、短语抽取、实体对关系分类等方法；<br>实体对关系分类方法中，可以用DistantSupervision启发式标注训练语料；</li>
-<li>Knowledge Reasoning：知识推理，涉及PathRanking Algorithnm、PredicateLogical、Markov LogicNetWork等方法，要求依赖规则，可采用关联挖掘技术自动发现推理规则；</li>
-<li>Knowledge Representation：知识表示，低维向量表示，采用DistributedRepresentation方案和TransE模型；<br>TransE模型：分布式向量表示，实体关系转化成三元组，实体head-&gt;实体tail的过程中，不断调整h、r、t以达到h+r=t的目的。</li>
-</ul>
+<p><img src="/2021/12/19/Ensemble-Stacking/stacking.jpeg"></p>
+<h1 id="Code-Scikit-Learn"><a href="#Code-Scikit-Learn" class="headerlink" title="Code (Scikit-Learn)"></a>Code (Scikit-Learn)</h1><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html">https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html</a></p>
+<h2 id="Stacking-Classification"><a href="#Stacking-Classification" class="headerlink" title="Stacking Classification"></a>Stacking Classification</h2><figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_iris</span><br><span class="line">from sklearn.ensemble import RandomForestClassifier</span><br><span class="line">from sklearn.svm import LinearSVC</span><br><span class="line">from sklearn.linear_model import LogisticRegression</span><br><span class="line">from sklearn.preprocessing import StandardScaler</span><br><span class="line">from sklearn.pipeline import make_pipeline</span><br><span class="line">from sklearn.ensemble import StackingClassifier</span><br><span class="line">X, y = load_iris(return_X_y=True)</span><br><span class="line">estimators = [</span><br><span class="line">   ("rf", RandomForestClassifier(n_estimators=10, random_state=42)),</span><br><span class="line">   ("svr", make_pipeline(StandardScaler(), LinearSVC(random_state=42))),</span><br><span class="line">]</span><br><span class="line">clf = StackingClassifier(estimators=estimators, final_estimator=LogisticRegression())</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, random_state=42)</span><br><span class="line">clf.fit(X_train, y_train).score(X_test, y_test)</span><br><span class="line"># Output: 0.9…</span><br></pre></td></tr></tbody></table></figure>
+
+<h2 id="Sstacking-Regression"><a href="#Sstacking-Regression" class="headerlink" title="Sstacking Regression"></a>Sstacking Regression</h2><figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.datasets import load_diabetes</span><br><span class="line">from sklearn.linear_model import RidgeCV</span><br><span class="line">from sklearn.svm import LinearSVR</span><br><span class="line">from sklearn.ensemble import RandomForestRegressor</span><br><span class="line">from sklearn.ensemble import StackingRegressor</span><br><span class="line">X, y = load_diabetes(return_X_y=True)</span><br><span class="line">estimators = [("lr", RidgeCV()), ("svr", LinearSVR(random_state=42))]</span><br><span class="line">reg = StackingRegressor(</span><br><span class="line">   estimators=estimators,</span><br><span class="line">   final_estimator=RandomForestRegressor(n_estimators=10, random_state=42),</span><br><span class="line">)</span><br><span class="line">from sklearn.model_selection import train_test_split</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)</span><br><span class="line">reg.fit(X_train, y_train).score(X_test, y_test)</span><br><span class="line"># Output: 0.3...</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p> <a target="_blank" rel="noopener" href="https://learning.oreilly.com/library/view/ensemble-learning-for/9781484259405/html/489264_1_En_4_Chapter.xhtml">https://learning.oreilly.com/library/view/ensemble-learning-for/9781484259405/html/489264_1_En_4_Chapter.xhtml</a></p>
 </body></html>
     
     </div>
     
+    <div class="columns is-variable is-1 is-multiline is-mobile">
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/machine-learning-ensemble/">#machine learning, ensemble</a></span>
+    
+    </div>
+    
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2021/12/19/Ensemble-Outlier-Detection/">Ensemble (3) - Outlier Detection</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2021/12/18/Ensemble/">Ensemble (1)</a>
+            
+        </span>
+    </div>
     
 </article>
 
 
 
 
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
     
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://example.com/2021/12/19/Ensemble-Stacking/';
+        this.page.identifier = '2021/12/19/Ensemble-Stacking/';
+        
+        this.language = 'en';
+        
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'feifeiwu' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
     
-        
-<nav class="pagination is-centered is-rounded" role="navigation" aria-label="pagination">
-    <div class="pagination-previous">
-        <a href="/page/29/">Prev</a>
-    </div>
-    <div class="pagination-next">
-        <a href="/page/31/">Next</a>
-    </div>
-    <ul class="pagination-list is-hidden-mobile">
-        
-        <li><a class="pagination-link" href="/">1</a></li>
-        
-        <li><span class="pagination-ellipsis">&hellip;</span></li>
-        
-        <li><a class="pagination-link" href="/page/29/">29</a></li>
-        
-        <li><a class="pagination-link is-current" href="/page/30/">30</a></li>
-        
-        <li><a class="pagination-link" href="/page/31/">31</a></li>
-        
-        <li><a class="pagination-link" href="/page/32/">32</a></li>
-        
-        <li><a class="pagination-link" href="/page/33/">33</a></li>
-        
-    </ul>
-</nav>
-    
+    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+</div>
+
     </div>
 </section>
     <footer class="footer">
