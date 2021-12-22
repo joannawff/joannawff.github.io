@@ -120,13 +120,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2017/04/08/stanford-nlp-lecture/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture2</a>
+            <a href="/2017/04/15/stanford-nlp-lecture1/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture1</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2017-04-08T07:35:14.000Z" itemprop="datePublished">Apr 8 2017</time>
+                <time datetime="2017-04-15T05:47:52.000Z" itemprop="datePublished">Apr 15 2017</time>
             
         </span>
         
@@ -139,60 +139,30 @@
         <span class="column is-narrow">
             
             
-            9 minutes read (About 1351 words)
+            6 minutes read (About 890 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2017/04/08/stanford-nlp-lecture/lecture.jpeg"></p>
-<p>课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。</p>
-<h1 id="WordNet"><a href="#WordNet" class="headerlink" title="WordNet"></a>WordNet</h1><p>本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。</p>
-<p>WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关系。它们分别用两个CSV文件来保存：synsets.txt和hypernym.txt。</p>
-<h2 id="同义词集"><a href="#同义词集" class="headerlink" title="同义词集"></a>同义词集</h2><p>synsets.txt保存了一系列的同义词，每行由3列，每列用逗号分隔，形如：id,synset,gloss<br>其中；id=编号，synset=同义词集（单词间用空格分隔），gloss=注解<br>举例：</p>
-<p>45,AND_circuit AND_gate,a circuit in a computer that fires only when all of its inputs fire</p>
-<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><p>hypernyms.txt保存同义词集之间的关系，每行是由逗号分隔的id序列，形如：id1,id2,id3…</p>
+        <html><head></head><body><p><img src="/2017/04/15/stanford-nlp-lecture1/lecture1.png"></p>
+<p>最近斯坦福大学新推出了一门课《Natural Language Processing with Deep Learning》，这对于NLP领域的初学者来说是一门很好的教学课程。本人作为nlp小白，写此文主要作为个人的学习笔记，有什么不当之处还请读者指点。<br>lecture1以入门介绍为主，讲述nlp、dl的定义、历史发展和基本方法。</p>
+<h1 id="NLP-Natural-Language-Processing"><a href="#NLP-Natural-Language-Processing" class="headerlink" title="NLP(Natural Language Processing)"></a>NLP(Natural Language Processing)</h1><p>NLP是一门CS（计算机科学）、AI（人工智能）、Linguistic（语言学）交叉的学科，研究的是如何让计算机理解人类的自然语言的一门学科。若输入的是语音，则先进行语音分析（phonetic analysis）；若输入是文本，则先进行OCR文字识别或切词处理（Tokenization），然后进行如下四个层次的分析；</p>
 <ul>
-<li>继承关系（hyperonymy, hyponymy, is-a）</li>
+<li>形态学分析（morphological analysis）</li>
+<li>语法分析（syntacic analysis）</li>
+<li>语义分析（semantic analysis）</li>
+<li>语篇处理（discourse processing）</li>
 </ul>
-<p>这类描述的是通用词与具体词之间的关系，比如：<br>通用词：{furniture, piece_of_furniture}<br>具体词：{bed} {bunkbed}</p>
+<h1 id="Human-Language"><a href="#Human-Language" class="headerlink" title="Human Language"></a>Human Language</h1><p>如果把语言比作信号，那么人类语言就像是一个精确的信号系统，可以通过声音、动作和图像来进行编码，大脑通过连续不断地的激活以获得最准确的意思。此外，人类本身大脑存储了海量的知识库，表达的语言具有上下文强依赖关系。</p>
+<h1 id="DL-Deep-Learning"><a href="#DL-Deep-Learning" class="headerlink" title="DL(Deep Learning)"></a>DL(Deep Learning)</h1><p>DL属于ML（Machine Learning）的一个分支，解决的是机器真正自动学习的问题。在80~00年代，ML任务并非真正的机器学习任务，需要人为地设计表征形式和特征，而这个过程也是最重要、工作量最大的部分，整个过程需要人去艰难地学习理论知识、设计各种特征、分析预测结果……久而久之ML任务就变成了一个参数优化的体力活。</p>
+<p>DL有个比较重要的概念——表征学习（Representation Learning），这是一个自动学习的过程，能够从原始的信号中自动学习到好的特征，总结出优秀、重要的表征形式。近年来随着GPU、分布式等存储计算能力的提高、数据集的扩大，DL在语音识别和图像处理两个领域的突破尤为显著。<br>DL和ML的对比可以从图中看出：</p>
+<h1 id="Deep-NLP"><a href="#Deep-NLP" class="headerlink" title="Deep NLP"></a>Deep NLP</h1><p>从近来的研究论文中也能发现，深度学习开始在NLP领域占领重要的作用。不像原来的手工提取特征计算的方式，Deep NLP有个重要的概念——向量空间（vector spaces），首先将文字转化成向量，然后向量结合成新的向量，用激活函数得到新的表征。<br>例如：</p>
 <ul>
-<li>部分-整体关系(part-whole)</li>
-</ul>
-<p>这类描述的是部分与整体之间的包含关系，比如整体={seat}，部分={leg}</p>
-<ul>
-<li>交叉词性关系（Cross-POS）</li>
-</ul>
-<p>实际上，WordNet主要按照词性（POS）来获取词间关系，因此WordNet含有4个子网络，分别存储名词、动词、形容词和副词。Cross-POS连接的是词干相同、词性不同的词，如ovserve(verb)、observant(adjective)、observation(noun)。</p>
-<h2 id="SAP（shortest-ancestral-path，最短祖先路径）"><a href="#SAP（shortest-ancestral-path，最短祖先路径）" class="headerlink" title="SAP（shortest ancestral path，最短祖先路径）"></a>SAP（shortest ancestral path，最短祖先路径）</h2><p>SAP是WordNet的一种数据结构，表示两个不同结点到共同祖先的最短距离，这可以用来计算两个词之间的距离相似度。如图所示，结点3和结点11的SAP=4：</p>
-<p>现有两个名词A和B，则A与B之间的距离distance(A,B)计算方式为：<br>step1: 若A、B都不是名词，distance=∞<br>step2: distance = min(sap(v(A),w(B))),其中V(A)表示A的任意同义词集，w(B)表示B的任意同义词集。</p>
-<p>##Outcast<br>Outcast就是找出在一组词中与其他最不相似的词，计算方法相对SAP比较简单暴力，就是计算某词语其他词的距离之和，最大的那个就是要求的解了。即：</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(di)^2 = (dist(Ai, A1))^2 + (dist(Ai, A2))^2 + … + (dist(Ai, An))^2</span><br></pre></td></tr></tbody></table></figure>
-<p>注意，wordnet工具提供了distance(),sap()和outcast()方法。</p>
-<h2 id="NLTKL与WordNet"><a href="#NLTKL与WordNet" class="headerlink" title="NLTKL与WordNet"></a>NLTKL与WordNet</h2><p>NLTK也有WordNet接口，详情参考《NLTK源码阅读——WordNet》</p>
-<h1 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h1><p>尽管WordNet能够一定程度上表达单词得的含义，但是具有如下不足：</p>
-<ul>
-<li>新词的时效性跟不上</li>
-<li>需要人工去搜集、创建</li>
-<li>不考虑上下文信息</li>
-<li>难以准确地定位两个词的相似度</li>
-</ul>
-<p>word2vec是google于2013年提出的工具，通过词向量（word embedding）来更好地度量词与词之间的相似性。起初vector的做法one-hot向量法：对于一个句子，如”I am a student.”，每个单词的向量表示为：</p>
-<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">I: [1,0,0,0]</span><br><span class="line">am: [0,1,0,0]</span><br><span class="line">a: [0,0,1,0]</span><br><span class="line">student: [0,0,0,1]</span><br></pre></td></tr></tbody></table></figure>
-<p>即单词的向量维度K=词典大小，这很容易造成维度灾难问题。对于这种情况，对应的解决办法是利用向量空间模型（Vector Space Model，简称VSM）将one-hot向量映射为稠密连续的Distributed Representation，其基本思想是：通过训练将每一个词映射成一个固定长度的短向量，构成词向量空间，每一个词向量相当于是空间中的一个点，那么点间距离就可以用来度量词间相似度了。</p>
-<p>Distributed Representation的形式如[0.792,-0.177,-0.107,0.109,-0.542,…]，维度一般是50-100维，向量表示不唯一。</p>
-<p>word2vec主要包含Skip-gram和Continious Bag of Words(CBOW)两种模型，分别采用Hierarchical Softmax 和Negative Sampling两种框架来实现。Ski-gram指给定中心词求上下文的概率，CBOW则相反，指给定上下文求中心词的概率。下面以Hierachical Softmax实现CBOW模型为例介绍实现的过程。</p>
-<h2 id="CBOW模型的Hierachical-Softmax实现"><a href="#CBOW模型的Hierachical-Softmax实现" class="headerlink" title="CBOW模型的Hierachical Softmax实现"></a>CBOW模型的Hierachical Softmax实现</h2><p>模型有3层：输入层、投影层、输出层. 注意：word embedding是术语表达，而word2vec是google提出的工具，并非指模型或算法。<br>在word2vec中采用Huffman编码，利用词频作为Huffman树的结点权值，权值大的编码为1，为左孩子结点；权值小的编码为0，为右孩子结点。</p>
-<h2 id="SG（Skip-Gram）"><a href="#SG（Skip-Gram）" class="headerlink" title="SG（Skip-Gram）"></a>SG（Skip-Gram）</h2><p>SG根据中心词预测上下文，包含三层：input（输入层）、projection（投影层）、output（输出层）</p>
-<h2 id="CBOW（Continious-Bag-of-Words）"><a href="#CBOW（Continious-Bag-of-Words）" class="headerlink" title="CBOW（Continious Bag of Words）"></a>CBOW（Continious Bag of Words）</h2><p>CBOW正好与SG相反，根据上下文预测中心词。</p>
-<ul>
-<li>Hierachical Softmax</li>
-<li>Negative Sample</li>
-</ul>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li>wordnet</li>
-<li>《Word2Vec的前世今生》</li>
-<li>《Distributed Representations ofWords and Phrases and their Compositionality》</li>
+<li><p>传统的NLP形态学分析，单词由前缀（prefix）+词干（stem）+后缀（suffix）组成，而DL将其转化成了vector，两两带权重累加形成新的向量，如图所示：</p>
+</li>
+<li><p>机器翻译是NLP研究的开端，SMT（Statistical Machine Learning）是NLP发展史一个的里程碑，而如今的机器翻译大多以NMT（Nerual Machine Learning）为主，将源语句子映射为一个向量后再处理输出目标语句子。</p>
+</li>
 </ul>
 </body></html>
     
@@ -228,7 +198,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/33/">33</a></li>
+        <li><a class="pagination-link" href="/page/34/">34</a></li>
         
     </ul>
 </nav>

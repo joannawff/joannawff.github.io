@@ -2,7 +2,7 @@
 <html class="has-navbar-fixed-top">
 <head>
     <meta charset="utf-8">
-<title>Data Augmentation (DA) - Feifei&#39;s Blog.</title>
+<title>Tag: machine learning, data analysis - Feifei&#39;s Blog.</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
@@ -18,27 +18,14 @@
 
 
 
-    <meta name="description" content="Data AugmentationThree DA methods: Paraphrasing, Noising, Sampling. ParaphrasingSix methods: Thesaurus, Semantic Embeddings, MLMs, Rules, Machine Translation, Model Generation. NoisingFive methods: S">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Data Augmentation (DA)">
-<meta property="og:url" content="http://example.com/2021/12/03/data-augmentation/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="Feifei&#39;s Blog.">
+<meta property="og:url" content="http://example.com/tags/machine-learning-data-analysis/index.html">
 <meta property="og:site_name" content="Feifei&#39;s Blog.">
-<meta property="og:description" content="Data AugmentationThree DA methods: Paraphrasing, Noising, Sampling. ParaphrasingSix methods: Thesaurus, Semantic Embeddings, MLMs, Rules, Machine Translation, Model Generation. NoisingFive methods: S">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/data_augmentation.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/DA_for_nlp.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/paraphrasing.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/noising.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/sampling.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/dimensions.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/parameter_sweeping.jpeg">
-<meta property="og:image" content="http://example.com/2021/12/03/data-augmentation/application.jpeg">
-<meta property="article:published_time" content="2021-12-03T13:56:32.000Z">
-<meta property="article:modified_time" content="2021-12-04T06:38:10.451Z">
 <meta property="article:author" content="Feifei">
-<meta property="article:tag" content="nlp">
+<meta property="article:tag" content="NLP,ML,Data Science">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2021/12/03/data-augmentation/data_augmentation.jpeg">
 
 
 
@@ -127,112 +114,121 @@
     </div>
 </nav>
 
-    <section class="section">
+    <section class="section section-heading">
     <div class="container">
-    <article class="article content gallery" itemscope itemprop="blogPost">
+        <div class="content">
+            <h5>#machine learning, data analysis</h5>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            Data Augmentation (DA)
+            <a href="/2021/12/21/data-quality-2/" itemprop="url">Data Quality (2)</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2021-12-03T13:56:32.000Z" itemprop="datePublished">Dec 3 2021</time>
+                <time datetime="2021-12-21T02:34:28.000Z" itemprop="datePublished">Dec 21 2021</time>
             
         </span>
         
         <span class="column is-narrow article-category">
             <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/Technology/">Technology</a>
+            <a class="article-category-link" href="/categories/technology/">technology</a>
         </span>
         
         
         <span class="column is-narrow">
             
             
-            a minute read (About 168 words)
+            a few seconds read (About 0 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2021/12/03/data-augmentation/data_augmentation.jpeg"></p>
-<h1 id="Data-Augmentation"><a href="#Data-Augmentation" class="headerlink" title="Data Augmentation"></a>Data Augmentation</h1><p>Three DA methods: Paraphrasing, Noising, Sampling.<br><img src="/2021/12/03/data-augmentation/DA_for_nlp.jpeg"></p>
-<h2 id="Paraphrasing"><a href="#Paraphrasing" class="headerlink" title="Paraphrasing"></a>Paraphrasing</h2><p>Six methods: Thesaurus, Semantic Embeddings, MLMs, Rules, Machine Translation, Model Generation.<br><img src="/2021/12/03/data-augmentation/paraphrasing.jpeg"></p>
-<h2 id="Noising"><a href="#Noising" class="headerlink" title="Noising"></a>Noising</h2><p>Five methods: Swapping, Deletion, Insertion, Substitution, Mixup.<br>Others in ConSERT: Dropout, Feature Cut-off.<br><img src="/2021/12/03/data-augmentation/noising.jpeg"></p>
-<h2 id="Sampling"><a href="#Sampling" class="headerlink" title="Sampling"></a>Sampling</h2><p>Four methods: Rules, Seq2Seq Models, Language Models, Self-training.<br><img src="/2021/12/03/data-augmentation/sampling.jpeg"></p>
-<h2 id="How-to-select-DA-methods"><a href="#How-to-select-DA-methods" class="headerlink" title="How to select DA methods"></a>How to select DA methods</h2><p>Comparison in six dimensions.<br>Level: t=text, e=embedding, l=label<br>Granularity: w=word, p=phrase, s=sentence.<br><img src="/2021/12/03/data-augmentation/dimensions.jpeg"></p>
-<h2 id="Tools-for-DA"><a href="#Tools-for-DA" class="headerlink" title="Tools for DA"></a>Tools for DA</h2><ul>
-<li>Easy DA: <a target="_blank" rel="noopener" href="https://github.com/jasonwei20/eda_nlp">https://github.com/jasonwei20/eda_nlp</a></li>
-<li>Unsupervised DA：<a target="_blank" rel="noopener" href="https://github.com/google-research/uda">https://github.com/google-research/uda</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/makcedward/nlpaug">https://github.com/makcedward/nlpaug</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/zhanlaoban/eda_nlp_for_Chinese">https://github.com/zhanlaoban/eda_nlp_for_Chinese</a></li>
-</ul>
-<h2 id="Optimization-for-DA-data"><a href="#Optimization-for-DA-data" class="headerlink" title="Optimization for DA data"></a>Optimization for DA data</h2><p>Two methods: pre-train &amp; parameter sweeping.</p>
-<ul>
-<li>pre-train<br>Pre-train with augmented data while fine-tune with labeled data.</li>
-<li>parameter sweeping<br><img src="/2021/12/03/data-augmentation/parameter_sweeping.jpeg"></li>
-</ul>
-<h2 id="DA-Application"><a href="#DA-Application" class="headerlink" title="DA Application"></a>DA Application</h2><p><img src="/2021/12/03/data-augmentation/application.jpeg"></p>
-<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/420295576">https://zhuanlan.zhihu.com/p/420295576</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2110.01852">Data Augmentation Approaches in Natural Language Processing: A Survey</a></li>
-</ul>
-</body></html>
+        
     
     </div>
     
-    <div class="columns is-variable is-1 is-multiline is-mobile">
-    
-        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/nlp/">#nlp</a></span>
-    
-    </div>
-    
-    
-    <div class="columns is-mobile is-multiline article-nav">
-        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
-            
-            <a href="/2021/12/18/Ensemble/">Ensemble (1)</a>
-            
-        </span>
-        <span class="column is-12-mobile is-half-desktop  article-nav-next">
-            
-            <a href="/2021/11/11/epoch-vs-step/">Epoch vs. Step</a>
-            
-        </span>
-    </div>
     
 </article>
 
 
 
 
-<div class="comments">
-    <h3 class="title is-4">Comments</h3>
     
-<script>
-    var disqus_config = function () {
-        this.page.url = 'http://example.com/2021/12/03/data-augmentation/';
-        this.page.identifier = '2021/12/03/data-augmentation/';
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-        this.language = 'en';
+            <a href="/2021/03/11/data-quality/" itemprop="url">Data Quality (1)</a>
         
-    };
-    (function() {
-        var d = document, s = d.createElement('script');  
-        s.src = '//' + 'feifeiwu' + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-
-<div id="disqus_thread">
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2021-03-10T16:23:11.000Z" itemprop="datePublished">Mar 11 2021</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/technology/">technology</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            a minute read (About 211 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-    <noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-</div>
+        <html><head></head><body><p><img src="/2021/03/11/data-quality/tree.jpeg"></p>
+<p><font size="2"><i>Note: image is downloaded from <a target="_blank" rel="noopener" href="http://www.freejupiter.com/wp-content/uploads/2014/11/Beautiful-Christmas-Tree-Wallpapers-34.jpg">here</a>.</i></font></p>
+<h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p><b>Better Data!=More Data</b></p>
+<p>Better data is always better. Improve data quality is alwayss well invested.</p>
+<p><font color="red"><i>Tip: doing some form of smart sampling on your population the right way (e.g. using stratified sampling) can get you to better results than if you used the whole unfiltered data set.</i></font></p>
+<p><b>Data Without a Sound Approach = Noise</b></p>
+<p><font color="red"><i>The availability of data enables more and better insights and applications. More data indeed enables and requires better approaches</i></font></p>
+<h1 id="Attributes-related-to-data-quality"><a href="#Attributes-related-to-data-quality" class="headerlink" title="Attributes related to data quality"></a>Attributes related to data quality</h1><ul>
+<li>Accuracy</li>
+<li>Consistency</li>
+<li>Timeless</li>
+<li>Completeness</li>
+</ul>
+<h1 id="Ways-to-improve-data-quality"><a href="#Ways-to-improve-data-quality" class="headerlink" title="Ways to improve data quality"></a>Ways to improve data quality</h1><ul>
+<li>Resolve missing values<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">df["column"].isnull()</span><br><span class="line">df["column"].fillna()</span><br></pre></td></tr></tbody></table></figure></li>
+<li>Convert the Date feature column to DateTime format<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df["Date"]=pd.to_datetime(df["Date"],format="%m/%d/%Y")</span><br></pre></td></tr></tbody></table></figure></li>
+<li>Parse date/time features<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df["year"]=df["Date"].dt.year</span><br><span class="line">df["month"]=df["Date"].dt.month</span><br><span class="line">df["day"]=df["Date"].dt.day</span><br></pre></td></tr></tbody></table></figure></li>
+<li>Remove unwanted values(characters)</li>
+<li>Convert categorical columns to “one-hot encodings”</li>
+</ul>
+<h1 id="Data-quality-process"><a href="#Data-quality-process" class="headerlink" title="Data quality process"></a>Data quality process</h1><p><img src="/2021/03/11/data-quality/process.png"><br>菜市口</p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://www.kdnuggets.com/2015/06/machine-learning-more-data-better-algorithms.html">https://www.kdnuggets.com/2015/06/machine-learning-more-data-better-algorithms.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.coursera.org/lecture/launching-machine-learning/improve-data-quality-WWXvO">https://www.coursera.org/lecture/launching-machine-learning/improve-data-quality-WWXvO</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.talend.com/resources/machine-learning-data-quality/">https://www.talend.com/resources/machine-learning-data-quality/</a></li>
+</ul>
+</body></html>
+    
+    </div>
+    
+    
+</article>
 
+
+
+
+    
+    
     </div>
 </section>
     <footer class="footer">
