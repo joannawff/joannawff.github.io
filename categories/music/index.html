@@ -130,6 +130,89 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
+            <a href="/2021/12/24/guitu/" itemprop="url">归途</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2021-12-23T17:14:50.000Z" itemprop="datePublished">Dec 24 2021</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/Music/">Music</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            a few seconds read (About 49 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <html><head></head><body><div id="cplayer-30206162"></div>
+    <script>
+      (function(){
+        function loadcplayer() {
+          if (typeof window.cplayerList === 'undefined') window.cplayerList = {};
+          if (typeof window.cplayerList["cplayer-30206162"] !== 'undefined') return;
+          if (!cplayer.prototype.add163) cplayer.prototype.add163 = function add163(id) {
+            if (!id) throw new Error("Unable Property.");
+            return fetch("https://music.huaji8.top/?id=" + id).then(function(res){return res.json()}).then(function(data){
+              let obj = {
+                name: data.info.songs[0].name,
+                artist: data.info.songs[0].ar.map(function(ar){ return ar.name }).join(','),
+                poster: data.pic.url,
+                lyric: data.lyric.lyric,
+                sublyric: data.lyric.tlyric,
+                src: data.url.url
+              }
+              this.add(obj);
+              return obj;
+            }.bind(this))
+          }
+
+          window.cplayerList["cplayer-30206162"] = new cplayer({
+            element: document.getElementById("cplayer-30206162"),
+            playlist: [{"name":"归途","artist":"薛晓","poster":"https://cplayer.js.org/801422833716a4f0f96ff6dff1f77dfe.jpg","src":"https://music.163.com/#/song?id=427606738"}],
+            generateBeforeElement: true,
+            deleteElementAfterGenerate: true,
+            autoplay: true
+          });
+
+          window.cplayerList["cplayer-30206162"].add163(427606738)
+        }
+        
+        if (typeof window.cplayer === 'undefined' && !document.getElementById("cplayer-script")) {
+          var js = document.createElement("script");
+          js.src = 'https://cdn.jsdelivr.net/gh/MoePlayer/cPlayer/dist/cplayer.js';
+          js.id = "cplayer-script";
+          js.addEventListener("load", loadcplayer);
+          document.body.appendChild(js);
+        } else {
+          window.addEventListener("load", loadcplayer);
+        }
+      })()
+    </script>
+	</body></html>
+    
+    </div>
+    
+    
+</article>
+
+
+
+
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
             <a href="/2021/12/23/music-test/" itemprop="url">チルドレンレコード</a>
         
     </h1>
