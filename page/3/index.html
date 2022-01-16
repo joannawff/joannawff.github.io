@@ -123,44 +123,76 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2021/12/22/variancd-or-bias/" itemprop="url">Variance or Bias?</a>
+            <a href="/2021/12/23/music-test/" itemprop="url">チルドレンレコード</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2021-12-22T15:00:25.000Z" itemprop="datePublished">Dec 22 2021</time>
+                <time datetime="2021-12-22T16:14:23.000Z" itemprop="datePublished">Dec 23 2021</time>
             
         </span>
         
         <span class="column is-narrow article-category">
             <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/technology/">technology</a>
+            <a class="article-category-link" href="/categories/Music/">Music</a>
         </span>
         
         
         <span class="column is-narrow">
             
             
-            a few seconds read (About 86 words)
+            a few seconds read (About 68 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2021/12/22/variancd-or-bias/bias.jpeg"></p>
-<h2 id="High-Variance"><a href="#High-Variance" class="headerlink" title="High Variance"></a>High Variance</h2><p><b>High variance</b> means the model is too complicated for the amount of data we have. It leads to <b>overfitting</b>. </p>
-<p>Situation of <b>high variance</b>: training error is much lower than the testing error.</p>
-<p>How to address <b>high variance</b> problem? </p>
-<ul>
-<li>reduce the number of features</li>
-<li>increase the number of data points</li>
-</ul>
-<h2 id="High-Bias"><a href="#High-Bias" class="headerlink" title="High Bias"></a>High Bias</h2><p><b>High bias</b> means the model ist too simple to explain the data we have. <font color="red">In such scenario, adding more data won’t help.</font></p>
-<p>How to addresss <b>high bias</b>? </p>
-<ul>
-<li>add more features</li>
-</ul>
+        <html><head></head><body><div id="cplayer-79286479"></div>
+    <script>
+      (function(){
+        function loadcplayer() {
+          if (typeof window.cplayerList === 'undefined') window.cplayerList = {};
+          if (typeof window.cplayerList["cplayer-79286479"] !== 'undefined') return;
+          if (!cplayer.prototype.add163) cplayer.prototype.add163 = function add163(id) {
+            if (!id) throw new Error("Unable Property.");
+            return fetch("https://music.huaji8.top/?id=" + id).then(function(res){return res.json()}).then(function(data){
+              let obj = {
+                name: data.info.songs[0].name,
+                artist: data.info.songs[0].ar.map(function(ar){ return ar.name }).join(','),
+                poster: data.pic.url,
+                lyric: data.lyric.lyric,
+                sublyric: data.lyric.tlyric,
+                src: data.url.url
+              }
+              this.add(obj);
+              return obj;
+            }.bind(this))
+          }
+
+          window.cplayerList["cplayer-79286479"] = new cplayer({
+            element: document.getElementById("cplayer-79286479"),
+            playlist: [{"name":"チルドレンレコード","artist":"96猫,伊東歌詞太郎","poster":"https://cplayer.js.org/801422833716a4f0f96ff6dff1f77dfe.jpg","src":"https://cplayer.js.org/8af423669c27d265bb129d04a927044f.mp3"}],
+            generateBeforeElement: true,
+            deleteElementAfterGenerate: true,
+            autoplay: true
+          });
+
+          window.cplayerList["cplayer-79286479"].add163(27955597)
+        }
+        
+        if (typeof window.cplayer === 'undefined' && !document.getElementById("cplayer-script")) {
+          var js = document.createElement("script");
+          js.src = 'https://cdn.jsdelivr.net/gh/MoePlayer/cPlayer/dist/cplayer.js';
+          js.id = "cplayer-script";
+          js.addEventListener("load", loadcplayer);
+          document.body.appendChild(js);
+        } else {
+          window.addEventListener("load", loadcplayer);
+        }
+      })()
+    </script>
+	
 </body></html>
     
     </div>
@@ -193,7 +225,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/34/">34</a></li>
+        <li><a class="pagination-link" href="/page/35/">35</a></li>
         
     </ul>
 </nav>
@@ -204,7 +236,7 @@
     <div class="container">
         <div class="columns content">
             <div class="column is-narrow has-text-centered">
-                &copy; 2021 Feifei&nbsp;
+                &copy; 2022 Feifei&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
                         target="_blank" rel="noopener" href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
             </div>
