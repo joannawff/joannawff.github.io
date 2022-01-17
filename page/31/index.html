@@ -123,46 +123,80 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2016/12/01/internship-feeling/" itemprop="url">实习多少有点感悟</a>
+            <a href="/2017/04/08/stanford-nlp-lecture/" itemprop="url">课程学习——斯坦福CS224N深度学习自然语言处理lecture2</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2016-12-01T07:16:32.000Z" itemprop="datePublished">Dec 1 2016</time>
+                <time datetime="2017-04-08T07:35:14.000Z" itemprop="datePublished">Apr 8 2017</time>
             
         </span>
         
         <span class="column is-narrow article-category">
             <i class="far fa-folder"></i>
-            <a class="article-category-link" href="/categories/LifeStyle/">LifeStyle</a>
+            <a class="article-category-link" href="/categories/Technology/">Technology</a>
         </span>
         
         
         <span class="column is-narrow">
             
             
-            7 minutes read (About 1119 words)
+            9 minutes read (About 1351 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <html><head></head><body><p><img src="/2016/12/01/internship-feeling/thinking.png"></p>
-<p>今天与经理的one-one、与指导人的交流分别在处事方式、思维方式上让我收获很多。</p>
-<h2 id="处事方式"><a href="#处事方式" class="headerlink" title="处事方式"></a>处事方式</h2><p>在BD工作，是以目标和结果为导向的。拿到一个任务，首先要问指导人三个问题：</p>
+        <html><head></head><body><p><img src="/2017/04/08/stanford-nlp-lecture/lecture.jpeg"></p>
+<p>课程第二讲主要介绍向量表达、word2vec原理以及skip-gram求上下文概率方程的推导过程。</p>
+<h1 id="WordNet"><a href="#WordNet" class="headerlink" title="WordNet"></a>WordNet</h1><p>本节视频里简单提了一下wordnet，但为了加深理解，我认为有必要对wordnet进行深层剖析。WordNet是一种基于认知语言学的、具有上下位关系的英语语义词典，根据词义组成了一个覆盖范围宽广的词汇语义网。</p>
+<p>WordNet里有两个重要的概念，一个是同义词集，另一个是同义词之间的关系。它们分别用两个CSV文件来保存：synsets.txt和hypernym.txt。</p>
+<h2 id="同义词集"><a href="#同义词集" class="headerlink" title="同义词集"></a>同义词集</h2><p>synsets.txt保存了一系列的同义词，每行由3列，每列用逗号分隔，形如：id,synset,gloss<br>其中；id=编号，synset=同义词集（单词间用空格分隔），gloss=注解<br>举例：</p>
+<p>45,AND_circuit AND_gate,a circuit in a computer that fires only when all of its inputs fire</p>
+<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><p>hypernyms.txt保存同义词集之间的关系，每行是由逗号分隔的id序列，形如：id1,id2,id3…</p>
 <ul>
-<li>我这个任务是干什么的</li>
-<li>要用什么方法和技术手段</li>
-<li>评估指标是什么，要达到什么目的</li>
+<li>继承关系（hyperonymy, hyponymy, is-a）</li>
 </ul>
-<p>在与指导人的沟通中，一定要check两人的理解是否一致。指导人的表达能力、被指导人的理解能力会影响整个任务的进行。在明白了任务后，要问指导人“我的理解是……你看这样对不对。”通过这样的方式，来统一两人的标准，以免不必要的重复工作。</p>
-<p>在确定了上述3个问题后，整个工作会变得很清晰，而自己也会为了这个目标而去发散思维，不用时刻请教指导人。</p>
-<p>经理说的对，一个任务失败了，很大程度上最大的受害者是被指导人。指导人会有多个项目，一个失败了还有其他的，然而被指导人就只有这么一个任务，一个任务黄了很大程度上反应了工作能力与技术水平，而且也影响了信誉度与自信，因此对自己负责才是最重要的。</p>
-<h2 id="思维方式"><a href="#思维方式" class="headerlink" title="思维方式"></a>思维方式</h2><p>今天在check分类效果时，发现训练正例里出现的词在测试集上没有召回，百思不得其解。指导人让我做了如下处理：对训练正例的句子统计词频，从大到小排序，留下length&gt;2且tf&gt;3的词，再人工过滤一遍，得到一个过滤词集。然后凡是句中出现了这类词语的通通滤掉。</p>
-<p>结果效果很明显，召回了很多重要的句子。对此我问了指导人，他说这全看经验与时间累积的结果。正例内容未召回，说明存在负例的干扰，这时我就要去查看数据的因素。或许过滤部分词会导致负例缺失，但是可以先抱着扩大召回的目的去尝试，然后不断的修复。分类其实就是这个道理，分类实质上就是分离平面不断移动的一个过程，如果数据特别杂乱无章，正负例交错复杂，就算再牛掰的特征、模型也很难拟合这个平面，即便是拟合了在测试集上试验的结果也会不理想。因此对数据的处理很重要。</p>
-<p>在NLP、ML、DL领域，有这么一个定律：神秘上——数据&lt;特征&lt;模型，而效果上正好相反。从数据到模型，理解的越深，越能体现一个人的厉害。然而实际上，往往对数据的处理是效果提升最明显的。当然，在图像和语音领域，DL、DNN的效果十分显著，但是这些是建立在数据庞大的基础之上的，如今图像和语音水平上模型是优于特征的，由于其海量数据的存在，模型能够自动学习到复杂的特征，甚至是人所想不到的特征。然而语言是一个特殊的领域，人的经验和规则起着非常重要的作用，况且数据匮乏，标注数据需要大量的人力，因此无论是DL还是DNN都还打不到理想的效果。就拿昨天标注的数据来说，一整天全神贯注也才标了6000条左右的数据，可见数据处理的重要性。</p>
-<p>当然，上面的过程是一种思维方式的体现，我一个小小的实习生还打不到这样的水平，这是日积月累的结果。我要做的就是眼观六路耳听八方，不断的学习积累与经验总结，希望自己每天都能有所收获。</p>
+<p>这类描述的是通用词与具体词之间的关系，比如：<br>通用词：{furniture, piece_of_furniture}<br>具体词：{bed} {bunkbed}</p>
+<ul>
+<li>部分-整体关系(part-whole)</li>
+</ul>
+<p>这类描述的是部分与整体之间的包含关系，比如整体={seat}，部分={leg}</p>
+<ul>
+<li>交叉词性关系（Cross-POS）</li>
+</ul>
+<p>实际上，WordNet主要按照词性（POS）来获取词间关系，因此WordNet含有4个子网络，分别存储名词、动词、形容词和副词。Cross-POS连接的是词干相同、词性不同的词，如ovserve(verb)、observant(adjective)、observation(noun)。</p>
+<h2 id="SAP（shortest-ancestral-path，最短祖先路径）"><a href="#SAP（shortest-ancestral-path，最短祖先路径）" class="headerlink" title="SAP（shortest ancestral path，最短祖先路径）"></a>SAP（shortest ancestral path，最短祖先路径）</h2><p>SAP是WordNet的一种数据结构，表示两个不同结点到共同祖先的最短距离，这可以用来计算两个词之间的距离相似度。如图所示，结点3和结点11的SAP=4：</p>
+<p>现有两个名词A和B，则A与B之间的距离distance(A,B)计算方式为：<br>step1: 若A、B都不是名词，distance=∞<br>step2: distance = min(sap(v(A),w(B))),其中V(A)表示A的任意同义词集，w(B)表示B的任意同义词集。</p>
+<p>##Outcast<br>Outcast就是找出在一组词中与其他最不相似的词，计算方法相对SAP比较简单暴力，就是计算某词语其他词的距离之和，最大的那个就是要求的解了。即：</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(di)^2 = (dist(Ai, A1))^2 + (dist(Ai, A2))^2 + … + (dist(Ai, An))^2</span><br></pre></td></tr></tbody></table></figure>
+<p>注意，wordnet工具提供了distance(),sap()和outcast()方法。</p>
+<h2 id="NLTKL与WordNet"><a href="#NLTKL与WordNet" class="headerlink" title="NLTKL与WordNet"></a>NLTKL与WordNet</h2><p>NLTK也有WordNet接口，详情参考《NLTK源码阅读——WordNet》</p>
+<h1 id="word2vec"><a href="#word2vec" class="headerlink" title="word2vec"></a>word2vec</h1><p>尽管WordNet能够一定程度上表达单词得的含义，但是具有如下不足：</p>
+<ul>
+<li>新词的时效性跟不上</li>
+<li>需要人工去搜集、创建</li>
+<li>不考虑上下文信息</li>
+<li>难以准确地定位两个词的相似度</li>
+</ul>
+<p>word2vec是google于2013年提出的工具，通过词向量（word embedding）来更好地度量词与词之间的相似性。起初vector的做法one-hot向量法：对于一个句子，如”I am a student.”，每个单词的向量表示为：</p>
+<figure class="highlight plain hljs"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">I: [1,0,0,0]</span><br><span class="line">am: [0,1,0,0]</span><br><span class="line">a: [0,0,1,0]</span><br><span class="line">student: [0,0,0,1]</span><br></pre></td></tr></tbody></table></figure>
+<p>即单词的向量维度K=词典大小，这很容易造成维度灾难问题。对于这种情况，对应的解决办法是利用向量空间模型（Vector Space Model，简称VSM）将one-hot向量映射为稠密连续的Distributed Representation，其基本思想是：通过训练将每一个词映射成一个固定长度的短向量，构成词向量空间，每一个词向量相当于是空间中的一个点，那么点间距离就可以用来度量词间相似度了。</p>
+<p>Distributed Representation的形式如[0.792,-0.177,-0.107,0.109,-0.542,…]，维度一般是50-100维，向量表示不唯一。</p>
+<p>word2vec主要包含Skip-gram和Continious Bag of Words(CBOW)两种模型，分别采用Hierarchical Softmax 和Negative Sampling两种框架来实现。Ski-gram指给定中心词求上下文的概率，CBOW则相反，指给定上下文求中心词的概率。下面以Hierachical Softmax实现CBOW模型为例介绍实现的过程。</p>
+<h2 id="CBOW模型的Hierachical-Softmax实现"><a href="#CBOW模型的Hierachical-Softmax实现" class="headerlink" title="CBOW模型的Hierachical Softmax实现"></a>CBOW模型的Hierachical Softmax实现</h2><p>模型有3层：输入层、投影层、输出层. 注意：word embedding是术语表达，而word2vec是google提出的工具，并非指模型或算法。<br>在word2vec中采用Huffman编码，利用词频作为Huffman树的结点权值，权值大的编码为1，为左孩子结点；权值小的编码为0，为右孩子结点。</p>
+<h2 id="SG（Skip-Gram）"><a href="#SG（Skip-Gram）" class="headerlink" title="SG（Skip-Gram）"></a>SG（Skip-Gram）</h2><p>SG根据中心词预测上下文，包含三层：input（输入层）、projection（投影层）、output（输出层）</p>
+<h2 id="CBOW（Continious-Bag-of-Words）"><a href="#CBOW（Continious-Bag-of-Words）" class="headerlink" title="CBOW（Continious Bag of Words）"></a>CBOW（Continious Bag of Words）</h2><p>CBOW正好与SG相反，根据上下文预测中心词。</p>
+<ul>
+<li>Hierachical Softmax</li>
+<li>Negative Sample</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li>wordnet</li>
+<li>《Word2Vec的前世今生》</li>
+<li>《Distributed Representations ofWords and Phrases and their Compositionality》</li>
+</ul>
 </body></html>
     
     </div>
@@ -197,7 +231,7 @@
         
         <li><span class="pagination-ellipsis">&hellip;</span></li>
         
-        <li><a class="pagination-link" href="/page/35/">35</a></li>
+        <li><a class="pagination-link" href="/page/36/">36</a></li>
         
     </ul>
 </nav>
